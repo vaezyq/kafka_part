@@ -24,6 +24,8 @@ public class KafkaSendDao {
     private static final HashMap<String, String> resDdu = new HashMap<>();
 
 
+
+
     // 车辆卡片
     private static final HashMap<String, String> resTrainCard = new HashMap<>();
 
@@ -165,7 +167,6 @@ public class KafkaSendDao {
     public void listenerCard(ConsumerRecord<?, ?> record) {
 
         if (resTrainCard.containsKey("" + record.key())) {
-
 //            String s = (String) record.value();
 //            Map<String, String> jsonMap = JSON.parseObject(s, new TypeReference<HashMap<String, String>>() {});
 //            System.out.println("jsonMap: " + jsonMap.toString());
@@ -194,7 +195,6 @@ public class KafkaSendDao {
         } else {
             trainInfoBase.put("" + record.key(), "" + record.value());
         }
-
     }
 
 
@@ -273,9 +273,6 @@ public class KafkaSendDao {
                                 temp.add("0");
                             } else {
                                 Map<String, String> trainCardMap = processTrainCardHavc(trainCardHvacList.get(j).get(trainKey).toString());
-//                            System.out.println(trainCardHvacList.get(j).get(entry.getKey()));
-//                            System.out.println(trainCardHvacList.get(j));
-//                            System.out.println("=============");
                                 temp.add(trainKeyCardMap.get(entry.getKey()));
                             }
                         }

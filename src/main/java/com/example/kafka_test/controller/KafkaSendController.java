@@ -33,6 +33,9 @@ public class KafkaSendController {
         return new String("test");
     }
 
+
+
+
     // 这里后续可以加上错误返回
 
     @GetMapping(value = "/trainHvac")
