@@ -1,0 +1,10 @@
+{7008={Tc1D3State=Opened, mp1D8State=Opened, mp2D8State=Opened, mp1D2State=Opened, mp2D2State=Opened, M2D5State=Opened,
+mp2Temperature=63, next_station=, Tc1D8State=Opened, Tc2D8State=Opened, M1D5State=Opened, Tc1Temperature=63, current_station=,
+M1D1State=Opened, M2Temperature=63, mileage=, M1D7State=Opened, M1D4State=Opened, Tc2D4State=Opened, mp1D4State=Opened,
+mp1D7State=Opened, mp1D1State=Opened, Tc2D2State=Opened, Tc2D7State=Opened, mp2D3State=Opened, mp2D6State=Opened,
+M2D3State=Opened, M2D6State=Opened, mp2D5State=Opened, Tc1D6State=Opened, Tc2Temperature=63, M2D2State=Opened,
+mainAirPressure=, M1D2State=Opened, M1Temperature=63, Tc1D1State=Opened, Tc1D5State=Opened, M1D8State=Opened,
+Tc2D1State=Opened, Tc2D5State=Opened, M2D8State=Opened, mp1D5State=Opened, PCE_IEngyConsumed=0, M2D1State=Opened,
+trainSpeed=0, M2D7State=Opened, M2D4State=Opened, mp2D1State=Opened, Tc1D2State=Opened, Tc1D4State=Opened,
+mp2D4State=Opened, Tc1D7State=Opened, mp1D3State=Opened, mp1D6State=Opened, mp2D7State=Opened, M1D3State=Opened,
+brakepressure=, Tc2D6State=Opened, mp1Temperature=63, Tc2D3State=Opened, M1D6State=Opened}}
