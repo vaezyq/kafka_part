@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -17,7 +19,7 @@ public class KafkaSendService {
     @Autowired
     KafkaSendDao kafkaSendDao;
 
-    public final  static Map<String, String> res_without_blank = new HashMap<>();
+    public final static Map<String, String> res_without_blank = new HashMap<>();
 
 
     //长度为25的数组，每个数组的时间间隔为5分钟以上
@@ -29,8 +31,15 @@ public class KafkaSendService {
 
         String trainKey = "7002";
 
-        System.out.println(kafkaSendDao.getTrainInfoHvac());
-        Map<String, String> res = kafkaSendDao.processTrainCardHavc(kafkaSendDao.getTrainInfoHvac().get(trainKey));
+//        System.out.println(kafkaSendDao.getTrainInfoHvac());
+        Map<String, String> res = new HashMap<>();
+        if (kafkaSendDao.getTrainInfoHvac().get(trainKey) == null) {
+            System.out.println("The specified train has no data yet");
+            return res;
+        } else {
+            res = kafkaSendDao.processTrainCardHavc(kafkaSendDao.getTrainInfoHvac().get(trainKey));
+        }
+
 
         Map<String, List<String>> resTempList = kafkaSendDao.getTemList(kafkaSendDao.getTrainInfoHvacList(), trainKey);
 
@@ -61,8 +70,19 @@ public class KafkaSendService {
         }
 
         // 添加日期字段，一共25个
-        res_without_blank.put("date", kafkaSendDao.getInsertListDate().toString());
-        System.out.println(res_without_blank.get("date"));
+        DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf1.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+
+        ArrayList<String> temDate = new ArrayList<>();
+
+        for (int i = kafkaSendDao.getTrainInfoHvacListIdx() + 1; i < kafkaSendDao.getInsertListDate().size(); ++i) {
+            temDate.add(sdf1.format(kafkaSendDao.getInsertListDate().get(i)));
+        }
+        for (int i = 0; i <= kafkaSendDao.getTrainInfoHvacListIdx(); ++i) {
+            temDate.add(sdf1.format(kafkaSendDao.getInsertListDate().get(i)));
+        }
+        res_without_blank.put("date", temDate.toString());
+//        System.out.println(res_without_blank.get("date"));
 
         return res_without_blank;
     }
@@ -96,6 +116,36 @@ public class KafkaSendService {
             index += 1;
         }
         return count;
+    }
+
+
+    public Map<String, String> getTrainDoor(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
+        String trainKey = "7002";
+        Map<String, String> doorMap = kafkaSendDao.processTrainCardHavc(kafkaSendDao.getTrainInfoDoor().get(trainKey));
+
+        for (Map.Entry<String, String> entry : doorMap.entrySet()) {
+            if (entry.getKey().indexOf(" ") == 0) {
+                res_without_blank.put(entry.getKey().substring(1, entry.getKey().length()), entry.getValue().toString());
+            } else {
+                res_without_blank.put(entry.getKey(), entry.getValue().toString());
+            }
+        }
+        return res_without_blank;
+    }
+
+    public Map<String, String> getTrainPis(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
+        String trainKey = "7002";
+        Map<String, String> pisMap = kafkaSendDao.processTrainCardHavc(kafkaSendDao.getTrainInfoPis().get(trainKey));
+
+
+        for (Map.Entry<String, String> entry : pisMap.entrySet()) {
+            if (entry.getKey().indexOf(" ") == 0) {
+                res_without_blank.put(entry.getKey().substring(1, entry.getKey().length()), entry.getValue().toString());
+            } else {
+                res_without_blank.put(entry.getKey(), entry.getValue().toString());
+            }
+        }
+        return res_without_blank;
     }
 
 

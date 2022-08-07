@@ -34,8 +34,6 @@ public class KafkaSendController {
     }
 
 
-
-
     // 这里后续可以加上错误返回
 
     @GetMapping(value = "/trainHvac")
@@ -51,6 +49,23 @@ public class KafkaSendController {
     public Object getTrainHvacTemp(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
 
         return kafkaSendDao.getTemList(kafkaSendDao.getTrainInfoHvacList(), "7002");
+    }
+
+
+    @GetMapping(value = "/trainDoor")
+    @ResponseBody
+    // 只会返回空调的温度部分，这一部分是个列表
+    public Object getTrainDoor(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
+
+        return kafkaSendService.getTrainDoor(lineNum, trainNum);
+    }
+
+    @GetMapping(value = "/trainPis")
+    @ResponseBody
+    // 只会返回空调的温度部分，这一部分是个列表
+    public Object getTrainPis(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
+
+        return kafkaSendService.getTrainPis(lineNum, trainNum);
     }
 
 

@@ -8,6 +8,11 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -24,8 +29,6 @@ public class KafkaSendDao {
     private static final HashMap<String, String> resDdu = new HashMap<>();
 
 
-
-
     // 车辆卡片
     private static final HashMap<String, String> resTrainCard = new HashMap<>();
 
@@ -39,10 +42,19 @@ public class KafkaSendDao {
     //车辆hvac
     private static final HashMap<String, String> trainInfoHvac = new HashMap<>();
 
+    //车门
+    private static final HashMap<String, String> trainInfoDoor = new HashMap<>();
+
+    //PIS
+    private static final HashMap<String, String> trainInfoPis = new HashMap<>();
+
 
     //上一次插入的位置
     private static int trainInfoHvacListIdx = 0;
 
+    public static int getTrainInfoHvacListIdx() {
+        return trainInfoHvacListIdx;
+    }
 
     //主题
     private static final String topic_ddu = "ddu";
@@ -54,6 +66,10 @@ public class KafkaSendDao {
     private static final String train_info_base = "traininfo_base";
 
     private static final String train_info_hvac = "traininfo_hvac";
+
+    private static final String train_info_door = "traininfo_door";
+
+    private static final String train_info_PIS = "traininfo_pis";
 
 
     public HashMap<String, String> getResDdu() {
@@ -70,6 +86,14 @@ public class KafkaSendDao {
 
     public HashMap<String, String> getTrainInfoBase() {
         return trainInfoBase;
+    }
+
+    public HashMap<String, String> getTrainInfoDoor() {
+        return trainInfoDoor;
+    }
+
+    public HashMap<String, String> getTrainInfoPis() {
+        return trainInfoPis;
     }
 
     public HashMap<String, String> getTrainInfoHvac() {
@@ -218,24 +242,39 @@ public class KafkaSendDao {
 
         //每隔5min以上才会进行一次插入，后续再用，目前直接插入不进行判定
 
-//        Date date = new Date();
-//        if (date.getMinutes() - insertListDate.get(trainInfoHvacListIdx).getMinutes() >= 5) {
-//            trainInfoHvacList.set(trainInfoHvacListIdx, trainInfoHvac);
-//            trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 25;  //下一次更新的位置
-//            insertListDate.set(trainInfoHvacListIdx, date);
-//
-//        } else if (date.getMinutes() - insertListDate.get(trainInfoHvacListIdx).getMinutes() < 0) {
-//            if ((date.getMinutes() + (60 - insertListDate.get(trainInfoHvacListIdx).getMinutes())) >= 5) {
-//                trainInfoHvacList.set(trainInfoHvacListIdx, trainInfoHvac);
-//                trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 25;  //下一次更新的位置
-//                insertListDate.set(trainInfoHvacListIdx, date);
-//            }
-//        }
-        Date date = new Date();
-        trainInfoHvacList.set(trainInfoHvacListIdx, trainInfoHvac);
-        trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 25;  //下一次更新的位置
-        insertListDate.set(trainInfoHvacListIdx, date);
+        //最开始这个进行插入(否则无法遍历map表)
 
+        boolean flag = true;  //判断
+        for (int i = 0; i < trainInfoHvacList.size(); ++i) {
+            if (trainInfoHvacList.get(i).size() != 0) {
+                flag = false;
+            }
+        }
+        Date date = new Date();
+
+        if (flag) {  //没有数据时插入一条
+            trainInfoHvacList.set(trainInfoHvacListIdx, trainInfoHvac);
+            insertListDate.set(trainInfoHvacListIdx, date);
+        }
+
+//        System.out.println(date.toString());
+
+        if (date.getMinutes() - insertListDate.get(trainInfoHvacListIdx).getMinutes() >= 1) {
+            trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 25;  //本次更新的位置
+            trainInfoHvacList.set(trainInfoHvacListIdx, trainInfoHvac);
+            insertListDate.set(trainInfoHvacListIdx, date);
+
+        } else if (date.getMinutes() - insertListDate.get(trainInfoHvacListIdx).getMinutes() < 0) {
+            if ((date.getMinutes() + (60 - insertListDate.get(trainInfoHvacListIdx).getMinutes())) >= 1) {
+                trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 25;  //本次更新的位置
+                trainInfoHvacList.set(trainInfoHvacListIdx, trainInfoHvac);
+                insertListDate.set(trainInfoHvacListIdx, date);
+            }
+        }
+
+//        trainInfoHvacList.set(trainInfoHvacListIdx, trainInfoHvac);
+//        trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 25;  //下一次更新的位置
+//        insertListDate.set(trainInfoHvacListIdx, date);
     }
 
 
@@ -258,9 +297,10 @@ public class KafkaSendDao {
     }
 
     public Map<String, List<String>> getTemList(List<HashMap<String, String>> trainCardHvacList, String trainKey) { //25个数据，一个数据间隔5分钟
+        System.out.println(trainInfoHvacListIdx);
         String temList[] = {"returndampertemp", "senddampertemp", "idampertemp", "cooltemp", "inhaletemp", "exhausttemp", "outevaporationtemp", "evaporationtemp", "targettemp"};
         Map<String, List<String>> temResList = new HashMap<>();
-        System.out.println(trainCardHvacList.get(0));
+//        System.out.println(trainCardHvacList.get(0));
         if (trainCardHvacList.get(0).containsKey(trainKey)) {    //如果包含这辆列车
             Map<String, String> trainKeyCardMap = processTrainCardHavc(trainCardHvacList.get(0).get(trainKey).toString());
             for (Map.Entry<String, String> entry : trainKeyCardMap.entrySet()) {
@@ -268,7 +308,7 @@ public class KafkaSendDao {
                 for (int i = 0; i < temList.length; ++i) {
                     if (entry.getKey().toString().contains(temList[i])) {     //需要将这个字段变为数组
                         List<String> temp = new ArrayList<>();
-                        for (int j = 0; j < trainCardHvacList.size(); ++j) {
+                        for (int j = trainInfoHvacListIdx + 1; j < trainCardHvacList.size(); ++j) {
                             if (trainCardHvacList.get(j).size() == 0) {
                                 temp.add("0");
                             } else {
@@ -276,13 +316,51 @@ public class KafkaSendDao {
                                 temp.add(trainKeyCardMap.get(entry.getKey()));
                             }
                         }
+                        for (int j = 0; j <= trainInfoHvacListIdx; ++j) {
+                            if (trainCardHvacList.get(j).size() == 0) {
+                                temp.add("0");
+                            } else {
+                                Map<String, String> trainCardMap = processTrainCardHavc(trainCardHvacList.get(j).get(trainKey).toString());
+                                temp.add(trainKeyCardMap.get(entry.getKey()));
+                            }
+                        }
+
+
                         temResList.put(entry.getKey(), temp);
                     }
                 }
+
+
             }
         }
 
         return temResList;
     }
+
+
+    // train_info_door页面
+    @KafkaListener(id = "", topics = train_info_door, groupId = "group.train_door")
+    public void listenerTrainInfoDoor(ConsumerRecord<?, ?> record) {
+        if (trainInfoDoor.containsKey("" + record.key())) {
+            trainInfoDoor.replace("" + record.key(), "" + record.value());
+        } else {
+            trainInfoDoor.put("" + record.key(), "" + record.value());
+        }
+    }
+
+
+
+    // train_info_PIS页面
+    @KafkaListener(id = "", topics = train_info_PIS, groupId = "group.train_pis")
+    public void listenerTrainInfoPis(ConsumerRecord<?, ?> record) throws IOException {
+        if (trainInfoPis.containsKey("" + record.key())) {
+//            System.out.println(record.key());
+            trainInfoPis.replace("" + record.key(), "" + record.value());
+        } else {
+//            System.out.println(record.key());
+            trainInfoPis.put("" + record.key(), "" + record.value());
+        }
+    }
+
 
 }
