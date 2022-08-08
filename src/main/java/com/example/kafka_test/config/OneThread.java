@@ -1,9 +1,5 @@
 package com.example.kafka_test.config;
 
-import com.example.kafka_test.service.KafkaSendService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.annotation.Resource;
 import javax.websocket.Session;
 import java.io.IOException;

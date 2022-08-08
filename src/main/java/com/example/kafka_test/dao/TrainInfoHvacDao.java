@@ -10,11 +10,14 @@ import java.util.*;
 
 
 @Component
-public class TrainInfoHvac {
+public class TrainInfoHvacDao {
 
 
     @Autowired
     private KafkaTemplate kafkaTemplate;
+
+    @Autowired
+    ProcessKafkaRecordUtils processKafkaRecordUtils;
 
     //车辆hvac
     private static final HashMap<String, String> trainInfoHvac = new HashMap<>();
@@ -27,8 +30,6 @@ public class TrainInfoHvac {
     }
 
     private static final String train_info_hvac = "traininfo_hvac";
-
-
 
 
     public HashMap<String, String> getTrainInfoHvac() {
@@ -58,7 +59,6 @@ public class TrainInfoHvac {
     public List<HashMap<String, String>> getTrainInfoHvacList() {
         return trainInfoHvacList;
     }
-
 
 
     // train_info_hvac页面
@@ -115,31 +115,13 @@ public class TrainInfoHvac {
     }
 
 
-    public static Map<String, String> processTrainCardHavc(String str) {
-        Map<String, String> trainCardHavc = new HashMap<>();
-        int comma_idx_fir = 0;
-        int equal_idx = 0;
-        int comma_idx_sec = -1;
-//        System.out.println(str);
-        while ((comma_idx_sec = str.indexOf(',', comma_idx_sec + 1)) != -1) {
-            equal_idx = str.indexOf('=', equal_idx + 1);
-            String key = str.substring(comma_idx_fir + 1, equal_idx);
-            String value = str.substring(equal_idx + 1, comma_idx_sec);
-            trainCardHavc.put(key, value);
-            comma_idx_fir = comma_idx_sec;
-        }
-        equal_idx = str.indexOf('=', equal_idx + 1);
-        trainCardHavc.put(str.substring(comma_idx_fir + 1, equal_idx), str.substring(equal_idx + 1, str.length() - 1));
-        return trainCardHavc;
-    }
-
     public Map<String, List<String>> getTemList(List<HashMap<String, String>> trainCardHvacList, String trainKey) { //25个数据，一个数据间隔5分钟
         System.out.println(trainInfoHvacListIdx);
         String temList[] = {"returndampertemp", "senddampertemp", "idampertemp", "cooltemp", "inhaletemp", "exhausttemp", "outevaporationtemp", "evaporationtemp", "targettemp"};
         Map<String, List<String>> temResList = new HashMap<>();
 //        System.out.println(trainCardHvacList.get(0));
         if (trainCardHvacList.get(0).containsKey(trainKey)) {    //如果包含这辆列车
-            Map<String, String> trainKeyCardMap = processTrainCardHavc(trainCardHvacList.get(0).get(trainKey).toString());
+            Map<String, String> trainKeyCardMap = processKafkaRecordUtils.processTrainRecord(trainCardHvacList.get(0).get(trainKey).toString());
             for (Map.Entry<String, String> entry : trainKeyCardMap.entrySet()) {
 //                System.out.println(entry.getKey().toString());
                 for (int i = 0; i < temList.length; ++i) {
@@ -149,7 +131,7 @@ public class TrainInfoHvac {
                             if (trainCardHvacList.get(j).size() == 0) {
                                 temp.add("0");
                             } else {
-                                Map<String, String> trainCardMap = processTrainCardHavc(trainCardHvacList.get(j).get(trainKey).toString());
+                                Map<String, String> trainCardMap = processKafkaRecordUtils.processTrainRecord(trainCardHvacList.get(j).get(trainKey).toString());
                                 temp.add(trainKeyCardMap.get(entry.getKey()));
                             }
                         }
@@ -157,18 +139,15 @@ public class TrainInfoHvac {
                             if (trainCardHvacList.get(j).size() == 0) {
                                 temp.add("0");
                             } else {
-                                Map<String, String> trainCardMap = processTrainCardHavc(trainCardHvacList.get(j).get(trainKey).toString());
+                                Map<String, String> trainCardMap = processKafkaRecordUtils.processTrainRecord(trainCardHvacList.get(j).get(trainKey).toString());
                                 temp.add(trainKeyCardMap.get(entry.getKey()));
                             }
                         }
                         temResList.put(entry.getKey(), temp);
                     }
                 }
-
-
             }
         }
-
         return temResList;
     }
 

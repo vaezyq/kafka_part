@@ -1,5 +1,4 @@
 package com.example.kafka_test.config;
-import com.example.kafka_test.service.KafkaSendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

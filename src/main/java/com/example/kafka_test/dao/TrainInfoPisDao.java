@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @Component
-public class TrainInfoPis {
+public class TrainInfoPisDao {
     @Autowired
     private KafkaTemplate kafkaTemplate;
 
