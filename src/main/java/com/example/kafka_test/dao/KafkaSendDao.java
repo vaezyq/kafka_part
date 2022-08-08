@@ -35,8 +35,9 @@ public class KafkaSendDao {
     // 车辆故障
     private static final HashMap<String, String> resTrainFault = new HashMap<>();
 
-    //车辆基本详情
-    private static final HashMap<String, String> trainInfoBase = new HashMap<>();
+    //车辆基本详情,直接用处理好的结果：
+    //最外层的map: key为车辆例如7002，value为一个map,对应每个字段的key和value
+    private static final HashMap<String, Map<String, String>> trainInfoBase = new HashMap<>();
 
 
     //车辆hvac
@@ -84,7 +85,8 @@ public class KafkaSendDao {
         return resTrainFault;
     }
 
-    public HashMap<String, String> getTrainInfoBase() {
+    public HashMap<String, Map<String, String>> getTrainInfoBase() {
+        System.out.println(trainInfoBase);
         return trainInfoBase;
     }
 
@@ -212,13 +214,14 @@ public class KafkaSendDao {
 
 
     // train_info_base页面
-    @KafkaListener(id = "", topics = train_info_base, groupId = "group.base")
+    @KafkaListener(id = "", topics = train_info_base, groupId = "group.test_info")
     public void listenerTrainInfo(ConsumerRecord<?, ?> record) {
-        if (trainInfoBase.containsKey("" + record.key())) {
-            trainInfoBase.replace("" + record.key(), "" + record.value());
+        if (trainInfoBase.containsKey(record.key().toString().substring(0, 4))) {
+            trainInfoBase.replace(record.key().toString().substring(0, 4), processRecordAndString(record.key().toString(), record.value().toString()));
         } else {
-            trainInfoBase.put("" + record.key(), "" + record.value());
+            trainInfoBase.put(record.key().toString().substring(0, 4), processRecordAndString(record.key().toString(), record.value().toString()));
         }
+        System.out.println(trainInfoBase);
     }
 
 
@@ -256,8 +259,6 @@ public class KafkaSendDao {
             trainInfoHvacList.set(trainInfoHvacListIdx, trainInfoHvac);
             insertListDate.set(trainInfoHvacListIdx, date);
         }
-
-//        System.out.println(date.toString());
 
         if (date.getMinutes() - insertListDate.get(trainInfoHvacListIdx).getMinutes() >= 1) {
             trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 25;  //本次更新的位置
@@ -324,8 +325,6 @@ public class KafkaSendDao {
                                 temp.add(trainKeyCardMap.get(entry.getKey()));
                             }
                         }
-
-
                         temResList.put(entry.getKey(), temp);
                     }
                 }
@@ -349,7 +348,6 @@ public class KafkaSendDao {
     }
 
 
-
     // train_info_PIS页面
     @KafkaListener(id = "", topics = train_info_PIS, groupId = "group.train_pis")
     public void listenerTrainInfoPis(ConsumerRecord<?, ?> record) throws IOException {
@@ -360,6 +358,15 @@ public class KafkaSendDao {
 //            System.out.println(record.key());
             trainInfoPis.put("" + record.key(), "" + record.value());
         }
+    }
+
+
+    public Map<String, String> processRecordAndString(String key, String record) {
+        // 7002_2022-07-06 18:45:29 159
+        String resDate = key.substring(5, 24);
+        Map<String, String> resMap = processTrainCardHavc(record);
+        resMap.put("date", resDate);
+        return resMap;
     }
 
 

@@ -68,5 +68,12 @@ public class KafkaSendController {
         return kafkaSendService.getTrainPis(lineNum, trainNum);
     }
 
+    @GetMapping(value = "/trainBaseInfo")
+    @ResponseBody
+    // 只会返回空调的温度部分，这一部分是个列表
+    public Object getTrainBaseInfo(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
+        return kafkaSendService.getTrainBaseInfo(lineNum, trainNum);
+    }
+
 
 }

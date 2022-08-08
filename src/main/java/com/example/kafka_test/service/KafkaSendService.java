@@ -136,17 +136,26 @@ public class KafkaSendService {
     public Map<String, String> getTrainPis(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
         String trainKey = "7002";
         Map<String, String> pisMap = kafkaSendDao.processTrainCardHavc(kafkaSendDao.getTrainInfoPis().get(trainKey));
-
-
-        for (Map.Entry<String, String> entry : pisMap.entrySet()) {
-            if (entry.getKey().indexOf(" ") == 0) {
-                res_without_blank.put(entry.getKey().substring(1, entry.getKey().length()), entry.getValue().toString());
-            } else {
-                res_without_blank.put(entry.getKey(), entry.getValue().toString());
-            }
-        }
-        return res_without_blank;
+        return removeKeySpace(pisMap);
     }
 
+    public Map<String, String> getTrainBaseInfo(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
+        String trainKey = "7002";
+        System.out.println(kafkaSendDao.getTrainInfoBase());
+        Map<String, String> trainInfoMap = kafkaSendDao.getTrainInfoBase().get(trainKey);
+        return removeKeySpace(trainInfoMap);
+    }
+
+    public Map<String, String> removeKeySpace(Map<String, String> trainInfo) {
+        Map<String, String> res = new HashMap<>();
+        for (Map.Entry<String, String> entry : trainInfo.entrySet()) {
+            if (entry.getKey().indexOf(" ") == 0) {  //空格都是开头第一个
+                res.put(entry.getKey().substring(1, entry.getKey().length()), entry.getValue().toString());
+            } else {
+                res.put(entry.getKey(), entry.getValue().toString());
+            }
+        }
+        return res;
+    }
 
 }
