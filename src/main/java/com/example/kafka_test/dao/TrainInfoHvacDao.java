@@ -116,7 +116,7 @@ public class TrainInfoHvacDao {
 
 
     public Map<String, List<String>> getTemList(List<HashMap<String, String>> trainCardHvacList, String trainKey) { //25个数据，一个数据间隔5分钟
-        System.out.println(trainInfoHvacListIdx);
+//        System.out.println(trainInfoHvacListIdx);
         String temList[] = {"returndampertemp", "senddampertemp", "idampertemp", "cooltemp", "inhaletemp", "exhausttemp", "outevaporationtemp", "evaporationtemp", "targettemp"};
         Map<String, List<String>> temResList = new HashMap<>();
 //        System.out.println(trainCardHvacList.get(0));

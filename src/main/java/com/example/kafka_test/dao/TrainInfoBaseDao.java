@@ -39,7 +39,6 @@ public class TrainInfoBaseDao {
         } else {
             trainInfoBase.put(record.key().toString().substring(0, 4), processKafkaRecordUtils.processRecordAndString(record.key().toString(), record.value().toString()));
         }
-        System.out.println(trainInfoBase);
     }
 
 

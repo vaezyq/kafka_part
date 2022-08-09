@@ -70,6 +70,7 @@ public class TrainCardDao {
         } else {
             resTrainCard.put("" + record.key(), "" + record.value());
         }
+        System.out.println(resTrainCard);
     }
 
 
