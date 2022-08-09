@@ -1,5 +1,6 @@
 package com.example.kafka_test.service;
 
+import com.example.kafka_test.dao.ProcessKafkaRecordUtils;
 import com.example.kafka_test.dao.TrainCardDao;
 import com.example.kafka_test.dao.TrainFaultDao;
 import com.example.kafka_test.dto.LineInfo;
@@ -20,6 +21,9 @@ public class TrainCardService {
 
     @Autowired
     TrainCardDao trainCardDao;
+
+    @Autowired
+    ProcessKafkaRecordUtils processKafkaRecordUtils;
 
     static String dirver = "com.mysql.jdbc.Driver";
     static String user = "root";
@@ -47,7 +51,6 @@ public class TrainCardService {
             throw new RuntimeException(e);
         }
     }
-
 
 
     //得到线路信息的结果
@@ -157,11 +160,11 @@ public class TrainCardService {
             String key = iterator.next();
             String s = resTrainFault.get(key);
             if (s.contains("重大故障")) {
-                faultLevel.put(key, "重大");
+                faultLevel.put(key, "fault");
             } else if (s.contains("中度故障")) {
-                faultLevel.put(key, "中度");
+                faultLevel.put(key, "fault");
             } else {
-                faultLevel.put(key, "轻微");
+                faultLevel.put(key, "fault");
             }
         }
         return faultLevel;
@@ -184,7 +187,7 @@ public class TrainCardService {
             String key = iterator.next();
             if (key.equals(trainKey)) {
                 card_flag = 1;
-                card_map = processTrainCardStr(trainCardDao.getResTrainCard().get(key));
+                card_map = processKafkaRecordUtils.removeKeySpace(trainCardDao.getResTrainCard().get(key));
                 break;
             }
         }
@@ -194,6 +197,7 @@ public class TrainCardService {
 
         int fault_flag = 0;
         Map<String, String> fault_map = processFaultStr(trainFaultDao.getResTrainFault());
+        System.out.println(fault_map);
         String fault_level = "normal";
         iterator = fault_map.keySet().iterator();
         while (iterator.hasNext()) {
@@ -246,7 +250,8 @@ public class TrainCardService {
             control_model = card_map.get("control_model");
             current_station = card_map.get("current_station");
             next_station = card_map.get("next_station");
-            speed = Integer.parseInt(card_map.get("train_speed"));
+            speed = Integer.parseInt(card_map.get("trainspeed"));
+            total_train_length=Integer.parseInt(card_map.get("totalmileage"));
         }
         return new trainInfo(Integer.parseInt(trainNum), Integer.parseInt(lineNum), network, sign_strength, run_model, control_model, current_station, next_station, fault_level, is_online, is_operation, total_train_length);
     }

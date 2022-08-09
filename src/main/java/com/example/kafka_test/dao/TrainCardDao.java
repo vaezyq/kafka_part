@@ -18,12 +18,15 @@ public class TrainCardDao {
     @Autowired
     private KafkaTemplate kafkaTemplate;
 
+    @Autowired
+    ProcessKafkaRecordUtils processKafkaRecordUtils;
+
     // 车辆卡片
-    private static final HashMap<String, String> resTrainCard = new HashMap<>();
+    private static final HashMap<String, Map<String, String>> resTrainCard = new HashMap<>();
 
     private static final String topic_train_card = "traincard";
 
-    public HashMap<String, String> getResTrainCard() {
+    public HashMap<String, Map<String, String>> getResTrainCard() {
         return resTrainCard;
     }
 
@@ -61,17 +64,14 @@ public class TrainCardDao {
     // train_card页面
     @KafkaListener(id = "", topics = topic_train_card, groupId = "group.card")
     public void listenerCard(ConsumerRecord<?, ?> record) {
-
-        if (resTrainCard.containsKey("" + record.key())) {
+        if (resTrainCard.containsKey(record.key().toString().substring(0, 4))) {
 //            String s = (String) record.value();
 //            Map<String, String> jsonMap = JSON.parseObject(s, new TypeReference<HashMap<String, String>>() {});
 //            System.out.println("jsonMap: " + jsonMap.toString());
-            resTrainCard.replace("" + record.key(), "" + record.value());
+            resTrainCard.replace(record.key().toString().substring(0, 4), processKafkaRecordUtils.processRecordAndString(record.key().toString(), record.value().toString()));
         } else {
-            resTrainCard.put("" + record.key(), "" + record.value());
+            resTrainCard.put(record.key().toString().substring(0, 4), processKafkaRecordUtils.processRecordAndString(record.key().toString(), record.value().toString()));
         }
-        System.out.println(resTrainCard);
     }
-
 
 }

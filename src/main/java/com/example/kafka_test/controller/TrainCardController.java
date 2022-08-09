@@ -148,7 +148,7 @@ public class TrainCardController {
     }
 
     //01 正常 fault 故障 warning 预警
-    //8查询所有故障状态的列车
+    //8查询所有故障状态的列车,目前fault里的全部为故障，预警数据还没有
     @GetMapping(value = "/trainInfo/status02")
     @ResponseBody
     public Object getTianInfoStatus02(@RequestParam("lineNum") String lineNum) {
@@ -171,19 +171,21 @@ public class TrainCardController {
     @GetMapping(value = "/trainInfo/status03")
     @ResponseBody
     public Object getTianInfoStatus03(@RequestParam("lineNum") String lineNum) {
-        try {
-            Map<Integer, trainInfo> offlineLineNumTrainInfo = new HashMap<>();
-            Map<Integer, trainInfo> allLineNumTrainInfo = trainCardService.getAllTianInfoByLineNum(lineNum);
-            for (Map.Entry<Integer, trainInfo> entry : allLineNumTrainInfo.entrySet()) {
-                if (entry.getValue().getStatus().equals("warning")) {
-                    offlineLineNumTrainInfo.put(entry.getKey(), entry.getValue());
-                }
-            }
-            return offlineLineNumTrainInfo;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
+//        try {
+//            Map<Integer, trainInfo> offlineLineNumTrainInfo = new HashMap<>();
+//            Map<Integer, trainInfo> allLineNumTrainInfo = trainCardService.getAllTianInfoByLineNum(lineNum);
+//            for (Map.Entry<Integer, trainInfo> entry : allLineNumTrainInfo.entrySet()) {
+//                if (entry.getValue().getStatus().equals("warning")) {
+//                    offlineLineNumTrainInfo.put(entry.getKey(), entry.getValue());
+//                }
+//            }
+//            return offlineLineNumTrainInfo;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "";
+//        }
+
+        return "";   //目前还没有健康预警数据
     }
 
 

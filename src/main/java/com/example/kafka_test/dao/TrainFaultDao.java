@@ -33,6 +33,7 @@ public class TrainFaultDao {
         } else {
             resTrainFault.put("" + record.key(), "" + record.value());
         }
+        System.out.println(resTrainFault);
     }
 
     //故障的字符串处理，得到hasmap类型
@@ -43,11 +44,11 @@ public class TrainFaultDao {
             String key = iterator.next();
             String s = resTrainFault.get(key);
             if (s.contains("重大故障")) {
-                faultLevel.put(key, "重大");
+                faultLevel.put(key, "fault");
             } else if (s.contains("中度故障")) {
-                faultLevel.put(key, "中度");
+                faultLevel.put(key, "fault");
             } else {
-                faultLevel.put(key, "轻微");
+                faultLevel.put(key, "fault");
             }
         }
         return faultLevel;

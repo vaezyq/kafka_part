@@ -2,6 +2,8 @@ package com.example.kafka_test.dao;
 
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +15,9 @@ public class ProcessKafkaRecordUtils {
         String resDate = key.substring(5, 24);
         Map<String, String> resMap = processTrainRecord(record);
         resMap.put("date", resDate);
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        resMap.put("updateDate", sdf.format(date));
         return resMap;
     }
 
