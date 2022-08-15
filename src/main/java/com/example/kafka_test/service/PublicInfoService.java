@@ -18,12 +18,12 @@ public class PublicInfoService {
     public Map<String, String> getPublicInfo(String lineNum, String trainNum) {
         String trainKey = getTrainKey(lineNum, trainNum);
         Map<String, String> res = new HashMap<>();
-        if (trainInfoHvacDao.getTrainInfoHvac().get(trainKey) == null) return res;
+        if (trainInfoHvacDao.getTrainInfoHvacList().get(trainInfoHvacDao.getTrainInfoHvacListIdx()).get(trainKey) == null) return res;
 //        System.out.println(trainInfoHvacDao.getTrainInfoHvac());
 //        System.out.println(trainInfoHvacDao.getTrainInfoHvac().get(trainKey).get(" trainspeed"));
-        res.put("trainspeed", trainInfoHvacDao.getTrainInfoHvac().get(trainKey).get(" trainspeed"));
-        res.put("mainairpressure", trainInfoHvacDao.getTrainInfoHvac().get(trainKey).get(" mainairpressure"));
-        res.put("brakepressure", trainInfoHvacDao.getTrainInfoHvac().get(trainKey).get(" brakepressure"));
+        res.put("trainspeed", trainInfoHvacDao.getTrainInfoHvacList().get(trainInfoHvacDao.getTrainInfoHvacListIdx()).get(trainKey).get(" trainspeed"));
+        res.put("mainairpressure", trainInfoHvacDao.getTrainInfoHvacList().get(trainInfoHvacDao.getTrainInfoHvacListIdx()).get(trainKey).get(" mainairpressure"));
+        res.put("brakepressure", trainInfoHvacDao.getTrainInfoHvacList().get(trainInfoHvacDao.getTrainInfoHvacListIdx()).get(trainKey).get(" brakepressure"));
         return res;
     }
 

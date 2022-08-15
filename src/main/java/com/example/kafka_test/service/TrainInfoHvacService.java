@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -23,7 +24,7 @@ public class TrainInfoHvacService {
 
     public final static Map<String, String> res_without_blank = new HashMap<>();
 
-    public Map<String, String> getTrainHvac(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
+    public Map<String, String> getTrainHvac(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) throws ParseException {
 
         String trainKey = getTrainKey(lineNum, trainNum);
 
@@ -31,11 +32,11 @@ public class TrainInfoHvacService {
 
 //        System.out.println(kafkaSendDao.getTrainInfoHvac());
         Map<String, String> res = new HashMap<>();
-        if (trainInfoHvacDao.getTrainInfoHvac().get(trainKey) == null) {
+        if (trainInfoHvacDao.getTrainInfoHvacList().get(trainInfoHvacDao.getTrainInfoHvacListIdx()).get(trainKey) == null) {
             System.out.println("The specified train has no data yet");
             return res;
         } else {
-            res = trainInfoHvacDao.getTrainInfoHvac().get(trainKey);
+            res = trainInfoHvacDao.getTrainInfoHvacList().get(trainInfoHvacDao.getTrainInfoHvacListIdx()).get(trainKey);
         }
 
 

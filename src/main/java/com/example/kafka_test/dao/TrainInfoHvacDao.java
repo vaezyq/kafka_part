@@ -60,30 +60,36 @@ public class TrainInfoHvacDao {
 
 
     public List<HashMap<String, Map<String, String>>> getTrainInfoHvacList() {
+
         return trainInfoHvacList;
     }
-
-
 
 
     // train_info_hvac页面
     @KafkaListener(id = "", topics = train_info_hvac, groupId = "group.train_hvac")
     public void listenerTrainInfoHvac(ConsumerRecord<?, ?> record) {
-
         if (trainInfoHvac.containsKey(record.key().toString().substring(0, 4))) {
             trainInfoHvac.replace(record.key().toString().substring(0, 4), processKafkaRecordUtils.processRecordAndString(record.key().toString(), record.value().toString()));
         } else {
             trainInfoHvac.put(record.key().toString().substring(0, 4), processKafkaRecordUtils.processRecordAndString(record.key().toString(), record.value().toString()));
         }
-        trainInfoHvacList.set(trainInfoHvacListIdx, trainInfoHvac);
+        HashMap<String, Map<String, String>> res =new HashMap<>();
+        for (Map.Entry<String, Map<String, String>> entry : trainInfoHvac.entrySet()) {
+            res.put(entry.getKey(), entry.getValue());
+        }
+
+        trainInfoHvacList.set(trainInfoHvacListIdx, res);
+        System.out.println(trainInfoHvacList.get(trainInfoHvacListIdx).get(record.key().toString().substring(0, 4)).get("date"));
         trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 50;
         System.out.println(trainInfoHvacListIdx);
-//        System.out.println(record.key());
+
 
     }
 
 
     public Map<String, List<String>> getTemList(List<HashMap<String, Map<String, String>>> trainCardHvacList, String trainKey) { //25个数据，一个数据间隔5分钟
+
+
         String temList[] = {"returndampertemp", "senddampertemp", "idampertemp", "cooltemp", "inhaletemp", "exhausttemp", "outevaporationtemp", "evaporationtemp", "targettemp"};
         Map<String, List<String>> temResList = new HashMap<>();
         if (trainCardHvacList.get(0).containsKey(trainKey)) {    //如果包含这辆列车
@@ -113,24 +119,29 @@ public class TrainInfoHvacDao {
                     }
                 }
             }
+//0 1 2 idx idx+1    50
 
             List<String> date = new ArrayList<>();
             DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             sdf1.setTimeZone(TimeZone.getTimeZone("GMT+8"));
             for (int j = trainInfoHvacListIdx + 1; j < trainCardHvacList.size(); j += 2) {
                 if (trainCardHvacList.get(j).size() == 0) {
-                    date.add(sdf1.format(new Date()));
+                    date.add(sdf1.format("1999-11-11 11:11:11"));
                 } else {
                     date.add(trainCardHvacList.get(j).get(trainKey).get("date"));
                 }
             }
+
+
             for (int j = (trainInfoHvacListIdx - 1) % 2; j < trainInfoHvacListIdx; j += 2) {
                 if (trainCardHvacList.get(j).size() == 0) {
-                    date.add(sdf1.format(new Date()));
+                    date.add(sdf1.format("1999-11-11 11:11:11"));
                 } else {
                     date.add(trainCardHvacList.get(j).get(trainKey).get("date"));
                 }
             }
+
+
             temResList.put("date", date);
         }
         return temResList;
