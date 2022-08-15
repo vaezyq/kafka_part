@@ -27,12 +27,11 @@ public class TrainInfoBaseDao {
 
 
     public HashMap<String, Map<String, String>> getTrainInfoBase() {
-        System.out.println(trainInfoBase);
         return trainInfoBase;
     }
 
     // train_info_base页面
-    @KafkaListener(id = "", topics = train_info_base, groupId = "group.test_info")
+    @KafkaListener(id = "", topics = train_info_base, groupId = "group.base_info_2")
     public void listenerTrainInfo(ConsumerRecord<?, ?> record) {
         if (trainInfoBase.containsKey(record.key().toString().substring(0, 4))) {
             trainInfoBase.replace(record.key().toString().substring(0, 4), processKafkaRecordUtils.processRecordAndString(record.key().toString(), record.value().toString()));

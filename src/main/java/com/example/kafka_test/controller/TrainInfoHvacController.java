@@ -31,6 +31,7 @@ public class TrainInfoHvacController {
 
     @GetMapping(value = "/trainHvacTmp")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     // 只会返回空调的温度部分，这一部分是个列表
     public Object getTrainHvacTemp(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
 

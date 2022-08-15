@@ -25,7 +25,7 @@ public class TrainInfoPisDao {
     }
 
     // train_info_PIS页面
-    @KafkaListener(id = "", topics = train_info_PIS, groupId = "group.train_pis")
+    @KafkaListener(id = "", topics = train_info_PIS, groupId = "group.train_pis_2")
     public void listenerTrainInfoPis(ConsumerRecord<?, ?> record) throws IOException {
         if (trainInfoPis.containsKey("" + record.key())) {
 //            System.out.println(record.key());

@@ -25,9 +25,9 @@ public class TrainInfoHvacService {
 
     public Map<String, String> getTrainHvac(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
 
-//        String trainKey = getTrainKey(lineNum, trainNum);
+        String trainKey = getTrainKey(lineNum, trainNum);
 
-        String trainKey = "7002";
+//        String trainKey = "7002";
 
 //        System.out.println(kafkaSendDao.getTrainInfoHvac());
         Map<String, String> res = new HashMap<>();
@@ -35,7 +35,7 @@ public class TrainInfoHvacService {
             System.out.println("The specified train has no data yet");
             return res;
         } else {
-            res = processKafkaRecordUtils.processTrainRecord(trainInfoHvacDao.getTrainInfoHvac().get(trainKey));
+            res = trainInfoHvacDao.getTrainInfoHvac().get(trainKey);
         }
 
 
@@ -67,19 +67,19 @@ public class TrainInfoHvacService {
             res_without_blank.replace(entry.getKey(), entry.getValue());
         }
 
-        // 添加日期字段，一共25个
-        DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf1.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-
-        ArrayList<String> temDate = new ArrayList<>();
-
-        for (int i = trainInfoHvacDao.getTrainInfoHvacListIdx() + 1; i < trainInfoHvacDao.getInsertListDate().size(); ++i) {
-            temDate.add(sdf1.format(trainInfoHvacDao.getInsertListDate().get(i)));
-        }
-        for (int i = 0; i <=trainInfoHvacDao.getTrainInfoHvacListIdx(); ++i) {
-            temDate.add(sdf1.format(trainInfoHvacDao.getInsertListDate().get(i)));
-        }
-        res_without_blank.put("date", temDate.toString());
+//        // 添加日期字段，一共25个
+//        DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        sdf1.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+//
+//        ArrayList<String> temDate = new ArrayList<>();
+//
+//        for (int i = trainInfoHvacDao.getTrainInfoHvacListIdx() + 1; i < trainInfoHvacDao.getInsertListDate().size(); ++i) {
+//            temDate.add(sdf1.format(trainInfoHvacDao.getInsertListDate().get(i)));
+//        }
+//        for (int i = 0; i <=trainInfoHvacDao.getTrainInfoHvacListIdx(); ++i) {
+//            temDate.add(sdf1.format(trainInfoHvacDao.getInsertListDate().get(i)));
+//        }
+//        res_without_blank.put("date", temDate.toString());
 //        System.out.println(res_without_blank.get("date"));
 
         return res_without_blank;

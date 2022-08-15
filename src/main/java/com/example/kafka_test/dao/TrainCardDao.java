@@ -62,8 +62,12 @@ public class TrainCardDao {
     }
 
     // train_card页面
-    @KafkaListener(id = "", topics = topic_train_card, groupId = "group.card")
+    @KafkaListener(id = "", topics = topic_train_card, groupId = "group.card_2")
     public void listenerCard(ConsumerRecord<?, ?> record) {
+
+        if (record.key().toString().substring(0, 4).equals("7005")) {
+            return;
+        }
         if (resTrainCard.containsKey(record.key().toString().substring(0, 4))) {
 //            String s = (String) record.value();
 //            Map<String, String> jsonMap = JSON.parseObject(s, new TypeReference<HashMap<String, String>>() {});

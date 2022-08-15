@@ -13,7 +13,7 @@ public class ProcessLineDataUtils {
         String user = "root";
         String psd = "123456";
         String database = "train_card";
-        String ip = "10.176.25.26";
+        String ip = "121.4.90.236";
         String url = "jdbc:mysql://" + ip + ":3306/train_card?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true" + "&user=" + user + "&password=" + psd;
         Connection conn = DriverManager.getConnection(url);
         Statement stat = conn.createStatement();

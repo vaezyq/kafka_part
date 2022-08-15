@@ -6,6 +6,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.swing.plaf.IconUIResource;
 import java.util.HashMap;
 
 @Component
@@ -20,15 +21,21 @@ public class DduDao {
     //主题
     private static final String topic_ddu = "ddu";
 
+    int random_num = (int) (Math.random() * 100 + 1);
+
+    int count = 0;
+
+    String ddu_topic_id = "group.ddu_" + count;
+
     // ddu页面
-    @KafkaListener(id = "", topics = topic_ddu, groupId = "group.ddu")
-    public void listenerDdu(ConsumerRecord<?, ?> record) {
-        if (resDdu.containsKey("" + record.key())) {
-            resDdu.replace("" + record.key(), "" + record.value());
-        } else {
-            resDdu.put("" + record.key(), "" + record.value());
-        }
-    }
+//    @KafkaListener(id = "", topics = topic_ddu, groupId = "group.ddu_2" )
+//    public void listenerDdu(ConsumerRecord<?, ?> record) {
+//        if (resDdu.containsKey("" + record.key())) {
+//            resDdu.replace("" + record.key(), "" + record.value());
+//        } else {
+//            resDdu.put("" + record.key(), "" + record.value());
+//        }
+//    }
 
     public HashMap<String, String> getResDdu() {
         return resDdu;

@@ -20,7 +20,7 @@ public class TrainInfoDoorDao {
     private static final String train_info_door = "traininfo_door";
 
     // train_info_door页面
-    @KafkaListener(id = "", topics = train_info_door, groupId = "group.train_door")
+    @KafkaListener(id = "", topics = train_info_door, groupId = "group.train_door_2")
     public void listenerTrainInfoDoor(ConsumerRecord<?, ?> record) {
         if (trainInfoDoor.containsKey("" + record.key())) {
             trainInfoDoor.replace("" + record.key(), "" + record.value());

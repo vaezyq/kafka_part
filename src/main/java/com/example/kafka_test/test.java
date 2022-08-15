@@ -22,9 +22,9 @@ public class test {
         DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         sdf1.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 //        String date = sdf1.format(new Date());
-        System.out.println(sdf1.format(new Date()));
+//        System.out.println(sdf1.format(new Date()));
         String str = "{mp2Hvac1S2CoolTemp=, mp1Hvac2Ventilation2State=, M2Hvac2IExtTemp=63, mp1Hvac2ITargetTemp=56, M2Hvac1S1SendDamperTemp=}";
-        System.out.println(processTrainCardHavc(str));
+//        System.out.println(processTrainCardHavc(str));
     }
 
     public static Map<String, String> processTrainCardHavc(String str) {

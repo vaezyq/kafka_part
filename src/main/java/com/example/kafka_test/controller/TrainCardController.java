@@ -4,10 +4,7 @@ import com.example.kafka_test.dto.trainInfo;
 import com.example.kafka_test.service.TrainCardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +32,7 @@ public class TrainCardController {
     //1 查询某条线路信息   finished
     @GetMapping(value = "/line")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     public Object getLineInfoById(@RequestParam("lineNum") String lineNum) {
 //        查询线路信息
         try {
@@ -49,6 +47,7 @@ public class TrainCardController {
 //    @GetMapping(value = "/line/{getAll}")
     @GetMapping(value = "/line/getAll")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     public Object getLineInfos() {
         try {
             return trainCardService.getLineInfos();
@@ -62,6 +61,7 @@ public class TrainCardController {
     //    @ApiImplicitParam(name = "lineNum", value = "lineNum", required = true, dataType = "String")
     @GetMapping(value = "/trainInfos")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     public Object getTianInfos(@RequestParam("lineNum") String lineNum) {
         try {
             return trainCardService.getAllTianInfoByLineNum(lineNum);
@@ -75,6 +75,7 @@ public class TrainCardController {
     //4查询当前线路下一条车辆信息   finished
     @GetMapping(value = "/trainInfo")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     public Object getTianInfoByTrainNum(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
         try {
             return trainCardService.getTianInfoByTrainNum(lineNum, trainNum);
@@ -88,6 +89,7 @@ public class TrainCardController {
     //5查询所有投运状态的列车 is_online   finished
     @GetMapping(value = "/trainInfo/operation")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     public Object getTianInfoOperation(@RequestParam("lineNum") String lineNum) {
         try {
             Map<Integer, trainInfo> operationLineNumTrainInfo = new HashMap<>();
@@ -111,6 +113,7 @@ public class TrainCardController {
     //6查询所有在线状态的列车   finished
     @GetMapping(value = "/trainInfo/online")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     public Object getTianInfoOnline(@RequestParam("lineNum") String lineNum) {
         try {
             Map<Integer, trainInfo> onlineLineNumTrainInfo = new HashMap<>();
@@ -131,6 +134,7 @@ public class TrainCardController {
     //7查询所有离线状态的列车
     @GetMapping(value = "/trainInfo/outline")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     public Object getTianInfoOutline(@RequestParam("lineNum") String lineNum) {
         try {
             Map<Integer, trainInfo> offlineLineNumTrainInfo = new HashMap<>();
@@ -151,6 +155,7 @@ public class TrainCardController {
     //8查询所有故障状态的列车,目前fault里的全部为故障，预警数据还没有
     @GetMapping(value = "/trainInfo/status02")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     public Object getTianInfoStatus02(@RequestParam("lineNum") String lineNum) {
         try {
             Map<Integer, trainInfo> offlineLineNumTrainInfo = new HashMap<>();
@@ -170,6 +175,7 @@ public class TrainCardController {
     //9查询所有预警状态的列车
     @GetMapping(value = "/trainInfo/status03")
     @ResponseBody
+    @CrossOrigin(origins = "*")
     public Object getTianInfoStatus03(@RequestParam("lineNum") String lineNum) {
 //        try {
 //            Map<Integer, trainInfo> offlineLineNumTrainInfo = new HashMap<>();

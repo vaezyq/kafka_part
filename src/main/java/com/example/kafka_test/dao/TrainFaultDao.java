@@ -17,23 +17,28 @@ public class TrainFaultDao {
     private KafkaTemplate kafkaTemplate;
 
     // 车辆故障
-    private static final HashMap<String, String> resTrainFault = new HashMap<>();
+    private static final HashMap<String, Map<String, String>> resTrainFault = new HashMap<>();
 
     private static final String topic_fault = "fault";
 
-    public HashMap<String, String> getResTrainFault() {
+    public HashMap<String, Map<String, String>> getResTrainFault() {
         return resTrainFault;
     }
 
+    private static final HashMap<String, String> faultTrainKey = new HashMap<>();
+    public HashMap<String, String> getFaultTrainKey() {
+        return faultTrainKey;
+    }
+
+
     // train_fault页面
-    @KafkaListener(id = "", topics = topic_fault, groupId = "group.fault")
+    @KafkaListener(id = "", topics = topic_fault, groupId = "group.fault_2")
     public void listenerFault(ConsumerRecord<?, ?> record) {
-        if (resTrainFault.containsKey("" + record.key())) {
-            resTrainFault.replace("" + record.key(), "" + record.value());
+        if (faultTrainKey.containsKey(record.key().toString().substring(0, 4))) {
+            faultTrainKey.replace(record.key().toString().substring(0, 4), "fault");
         } else {
-            resTrainFault.put("" + record.key(), "" + record.value());
+            faultTrainKey.put(record.key().toString().substring(0, 4), "fault");
         }
-        System.out.println(resTrainFault);
     }
 
     //故障的字符串处理，得到hasmap类型

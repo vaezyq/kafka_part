@@ -29,7 +29,7 @@ public class TrainCardService {
     static String user = "root";
     static String psd = "123456";
     String database = "train_card";
-    static String ip = "10.176.25.26";
+    static String ip = "121.4.90.236";
     static String url = "jdbc:mysql://" + ip + ":3306/train_card?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true" + "&user=" + user + "&password=" + psd;
 
     static Connection conn;
@@ -180,31 +180,37 @@ public class TrainCardService {
         Iterator<String> iterator = trainCardDao.getResTrainCard().keySet().iterator();
         int card_flag = 0;
         Map<String, String> card_map = new HashMap<>();
-        System.out.println(trainCardDao.getResTrainCard());
+//        System.out.println(trainCardDao.getResTrainCard());
         String trainKey = getTrainKey(lineNum, trainNum);
-        System.out.println(trainKey);
+//        System.out.println(trainKey);
         while (iterator.hasNext()) {
             String key = iterator.next();
             if (key.equals(trainKey)) {
                 card_flag = 1;
                 card_map = processKafkaRecordUtils.removeKeySpace(trainCardDao.getResTrainCard().get(key));
+//                System.out.println(trainCardDao.getResTrainCard().get(key));
+//                System.out.println(card_map);
                 break;
             }
         }
-        System.out.println(card_map);
+
+//        System.out.println(card_map);
 
         //车辆状态(fault,warning,normal)从falut的MQ获取
 
         int fault_flag = 0;
-        Map<String, String> fault_map = processFaultStr(trainFaultDao.getResTrainFault());
-        System.out.println(fault_map);
+//        Map<String, String> fault_map = processFaultStr(trainFaultDao.getResTrainFault());
+
+        Map<String, String> fault_map = trainFaultDao.getFaultTrainKey();
         String fault_level = "normal";
+//        System.out.println(trainKey);
         iterator = fault_map.keySet().iterator();
         while (iterator.hasNext()) {
             String key = iterator.next();
+//            System.out.println(key);
             if (key.equals(trainKey)) {
                 fault_flag = 1;
-                fault_level = fault_map.get(key);
+                fault_level = "fault";
             }
         }
 
@@ -244,7 +250,7 @@ public class TrainCardService {
         int total_train_length = 0;
         int speed = 0;
         if (card_flag != 0) {    //MQ里有相应的数据
-            System.out.println(card_map);
+//            System.out.println(card_map);
             sign_strength = card_map.get("sign_intensity");
             run_model = card_map.get("drive_model");
             control_model = card_map.get("control_model");
