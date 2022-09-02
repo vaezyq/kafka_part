@@ -32,7 +32,7 @@ public class TrainFaultDao {
 
 
     // train_fault页面
-    @KafkaListener(id = "", topics = topic_fault, groupId = "group.fault_2")
+    @KafkaListener(id = "", topics = topic_fault, groupId = "new_12")
     public void listenerFault(ConsumerRecord<?, ?> record) {
         if (faultTrainKey.containsKey(record.key().toString().substring(0, 4))) {
             faultTrainKey.replace(record.key().toString().substring(0, 4), "fault");

@@ -2,11 +2,13 @@ package com.example.kafka_test.dao;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -32,6 +34,9 @@ public class TrainInfoHvacDao {
     }
 
     private static final String train_info_hvac = "traininfo_hvac";
+
+    @Value("${diff}")
+    private int diff = 5;
 
 
     public HashMap<String, Map<String, String>> getTrainInfoHvac() {
@@ -60,38 +65,40 @@ public class TrainInfoHvacDao {
 
 
     public List<HashMap<String, Map<String, String>>> getTrainInfoHvacList() {
-
         return trainInfoHvacList;
     }
 
 
     // train_info_hvac页面
-    @KafkaListener(id = "", topics = train_info_hvac, groupId = "group.train_hvac")
+    @KafkaListener(id = "", topics = train_info_hvac, groupId = "new_12")
     public void listenerTrainInfoHvac(ConsumerRecord<?, ?> record) {
+
         if (trainInfoHvac.containsKey(record.key().toString().substring(0, 4))) {
             trainInfoHvac.replace(record.key().toString().substring(0, 4), processKafkaRecordUtils.processRecordAndString(record.key().toString(), record.value().toString()));
         } else {
             trainInfoHvac.put(record.key().toString().substring(0, 4), processKafkaRecordUtils.processRecordAndString(record.key().toString(), record.value().toString()));
         }
-        HashMap<String, Map<String, String>> res =new HashMap<>();
-        for (Map.Entry<String, Map<String, String>> entry : trainInfoHvac.entrySet()) {
-            res.put(entry.getKey(), entry.getValue());
-        }
+        System.out.println(trainInfoHvac.get(record.key().toString().substring(0, 4)).get("date"));
+        System.out.println(record.key());
+        HashMap<String, Map<String, String>> res = new HashMap<>(trainInfoHvac);
 
         trainInfoHvacList.set(trainInfoHvacListIdx, res);
-        System.out.println(trainInfoHvacList.get(trainInfoHvacListIdx).get(record.key().toString().substring(0, 4)).get("date"));
         trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 50;
         System.out.println(trainInfoHvacListIdx);
-
+//        System.out.println(record.key());
 
     }
 
 
-    public Map<String, List<String>> getTemList(List<HashMap<String, Map<String, String>>> trainCardHvacList, String trainKey) { //25个数据，一个数据间隔5分钟
-
-
+    public Map<String, List<String>> getTemList(List<HashMap<String, Map<String, String>>> trainCardHvacList, String trainKey) throws ParseException { //25个数据，一个数据间隔5分钟
         String temList[] = {"returndampertemp", "senddampertemp", "idampertemp", "cooltemp", "inhaletemp", "exhausttemp", "outevaporationtemp", "evaporationtemp", "targettemp"};
         Map<String, List<String>> temResList = new HashMap<>();
+
+
+        Date nowDate = new Date();
+        DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf1.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        System.out.println(diff);
         if (trainCardHvacList.get(0).containsKey(trainKey)) {    //如果包含这辆列车
             Map<String, String> trainKeyCardMap = trainCardHvacList.get(0).get(trainKey);
             for (Map.Entry<String, String> entry : trainKeyCardMap.entrySet()) {
@@ -103,6 +110,19 @@ public class TrainInfoHvacDao {
                             if (trainCardHvacList.get(j).size() == 0) {
                                 temp.add("0");
                             } else {
+
+                                int mindiff = nowDate.getMinutes() - sdf1.parse(trainCardHvacList.get(j).get(trainKey).get("date")).getMinutes();
+                                if (mindiff >= 0) {
+                                    if (mindiff > diff) {
+                                        continue;
+                                    }
+                                } else {
+                                    mindiff = nowDate.getMinutes() + 60 - sdf1.parse(trainCardHvacList.get(j).get(trainKey).get("date")).getMinutes();
+                                    if (mindiff > diff) {
+                                        continue;
+                                    }
+                                }
+
                                 Map<String, String> trainCardMap = trainCardHvacList.get(j).get(trainKey);
                                 temp.add(trainKeyCardMap.get(entry.getKey()));
                             }
@@ -111,39 +131,74 @@ public class TrainInfoHvacDao {
                             if (trainCardHvacList.get(j).size() == 0) {
                                 temp.add("0");
                             } else {
+                                int mindiff = nowDate.getMinutes() - sdf1.parse(trainCardHvacList.get(j).get(trainKey).get("date")).getMinutes();
+                                if (mindiff >= 0) {
+                                    if (mindiff > diff) {
+                                        continue;
+                                    }
+                                } else {
+                                    mindiff = nowDate.getMinutes() + 60 - sdf1.parse(trainCardHvacList.get(j).get(trainKey).get("date")).getMinutes();
+                                    if (mindiff > diff) {
+                                        continue;
+                                    }
+                                }
                                 Map<String, String> trainCardMap = trainCardHvacList.get(j).get(trainKey);
                                 temp.add(trainKeyCardMap.get(entry.getKey()));
+
                             }
                         }
                         temResList.put(entry.getKey(), temp);
                     }
                 }
             }
-//0 1 2 idx idx+1    50
 
             List<String> date = new ArrayList<>();
-            DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            sdf1.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+
             for (int j = trainInfoHvacListIdx + 1; j < trainCardHvacList.size(); j += 2) {
                 if (trainCardHvacList.get(j).size() == 0) {
-                    date.add(sdf1.format("1999-11-11 11:11:11"));
+                    date.add(sdf1.format(new Date()));
                 } else {
+                    int mindiff = nowDate.getMinutes() - sdf1.parse(trainCardHvacList.get(j).get(trainKey).get("date")).getMinutes();
+                    if (mindiff >= 0) {
+                        if (mindiff > diff) {
+                            continue;
+                        }
+                    } else {
+                        mindiff = nowDate.getMinutes() + 60 - sdf1.parse(trainCardHvacList.get(j).get(trainKey).get("date")).getMinutes();
+                        if (mindiff > diff) {
+                            continue;
+                        }
+                    }
                     date.add(trainCardHvacList.get(j).get(trainKey).get("date"));
                 }
             }
-
-
             for (int j = (trainInfoHvacListIdx - 1) % 2; j < trainInfoHvacListIdx; j += 2) {
                 if (trainCardHvacList.get(j).size() == 0) {
-                    date.add(sdf1.format("1999-11-11 11:11:11"));
+                    date.add(sdf1.format(new Date()));
                 } else {
+                    int mindiff = nowDate.getMinutes() - sdf1.parse(trainCardHvacList.get(j).get(trainKey).get("date")).getMinutes();
+                    if (mindiff >= 0) {
+                        if (mindiff > diff) {
+                            continue;
+                        }
+                    } else {
+                        mindiff = nowDate.getMinutes() + 60 - sdf1.parse(trainCardHvacList.get(j).get(trainKey).get("date")).getMinutes();
+                        if (mindiff > diff) {
+                            continue;
+                        }
+                    }
                     date.add(trainCardHvacList.get(j).get(trainKey).get("date"));
                 }
             }
+//            for (int i = 0; i < trainInfoHvacListIdx; ++i) {
+//                System.out.println(trainCardHvacList.get(i).get(trainKey).get("date"));
+//            }
 
 
             temResList.put("date", date);
         }
+
+
         return temResList;
     }
 

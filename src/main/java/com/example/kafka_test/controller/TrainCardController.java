@@ -1,5 +1,6 @@
 package com.example.kafka_test.controller;
 
+import com.example.kafka_test.dto.MyResponseBody;
 import com.example.kafka_test.dto.trainInfo;
 import com.example.kafka_test.service.TrainCardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +37,12 @@ public class TrainCardController {
     public Object getLineInfoById(@RequestParam("lineNum") String lineNum) {
 //        查询线路信息
         try {
-            return trainCardService.getLineInfoById(lineNum);
+
+            return new MyResponseBody("200", "success", trainCardService.getLineInfoById(lineNum));
+//            return trainCardService.getLineInfoById(lineNum);
         } catch (Exception e) {
             e.printStackTrace();
-            return "";
+            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -50,10 +53,11 @@ public class TrainCardController {
     @CrossOrigin(origins = "*")
     public Object getLineInfos() {
         try {
-            return trainCardService.getLineInfos();
+            return new MyResponseBody("200", "success", trainCardService.getLineInfos());
+//            return trainCardService.getLineInfos();
         } catch (Exception e) {
             e.printStackTrace();
-            return "";
+            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -64,10 +68,11 @@ public class TrainCardController {
     @CrossOrigin(origins = "*")
     public Object getTianInfos(@RequestParam("lineNum") String lineNum) {
         try {
-            return trainCardService.getAllTianInfoByLineNum(lineNum);
+            return new MyResponseBody("200", "sucess", trainCardService.getAllTianInfoByLineNum(lineNum));
+//            return trainCardService.getAllTianInfoByLineNum(lineNum);
         } catch (Exception e) {
             e.printStackTrace();
-            return "";
+            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -78,10 +83,11 @@ public class TrainCardController {
     @CrossOrigin(origins = "*")
     public Object getTianInfoByTrainNum(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
         try {
-            return trainCardService.getTianInfoByTrainNum(lineNum, trainNum);
+            return new MyResponseBody("200", "sucess", trainCardService.getTianInfoByTrainNum(lineNum, trainNum));
+//            return trainCardService.getTianInfoByTrainNum(lineNum, trainNum);
         } catch (Exception e) {
             e.printStackTrace();
-            return "";
+            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -102,10 +108,11 @@ public class TrainCardController {
                     operationLineNumTrainInfo.put(entry.getKey(), entry.getValue());
                 }
             }
-            return operationLineNumTrainInfo;
+            return new MyResponseBody("200", "success", operationLineNumTrainInfo);
+//            return operationLineNumTrainInfo;
         } catch (Exception e) {
             e.printStackTrace();
-            return "";
+            return new MyResponseBody("400", "fail", "");
         }
 
     }
@@ -123,10 +130,11 @@ public class TrainCardController {
                     onlineLineNumTrainInfo.put(entry.getKey(), entry.getValue());
                 }
             }
-            return onlineLineNumTrainInfo;
+            return new MyResponseBody("200", "success", onlineLineNumTrainInfo);
+//            return onlineLineNumTrainInfo;
         } catch (Exception e) {
             e.printStackTrace();
-            return "";
+            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -144,10 +152,11 @@ public class TrainCardController {
                     offlineLineNumTrainInfo.put(entry.getKey(), entry.getValue());
                 }
             }
-            return offlineLineNumTrainInfo;
+            return new MyResponseBody("200", "success", offlineLineNumTrainInfo);
+//            return offlineLineNumTrainInfo;
         } catch (Exception e) {
             e.printStackTrace();
-            return "";
+            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -165,10 +174,11 @@ public class TrainCardController {
                     offlineLineNumTrainInfo.put(entry.getKey(), entry.getValue());
                 }
             }
-            return offlineLineNumTrainInfo;
+            return new MyResponseBody("200", "success", "");
+//            return offlineLineNumTrainInfo;
         } catch (Exception e) {
             e.printStackTrace();
-            return "";
+            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -190,8 +200,8 @@ public class TrainCardController {
 //            e.printStackTrace();
 //            return "";
 //        }
-
-        return "";   //目前还没有健康预警数据
+        return new MyResponseBody("400", "fail", ""); //目前还没有健康预警数据
+//        return "";
     }
 
 

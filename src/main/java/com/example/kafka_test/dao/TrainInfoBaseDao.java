@@ -31,7 +31,7 @@ public class TrainInfoBaseDao {
     }
 
     // train_info_base页面
-    @KafkaListener(id = "", topics = train_info_base, groupId = "group.base_info_2")
+    @KafkaListener(id = "", topics = train_info_base, groupId = "new_12")
     public void listenerTrainInfo(ConsumerRecord<?, ?> record) {
         if (trainInfoBase.containsKey(record.key().toString().substring(0, 4))) {
             trainInfoBase.replace(record.key().toString().substring(0, 4), processKafkaRecordUtils.processRecordAndString(record.key().toString(), record.value().toString()));

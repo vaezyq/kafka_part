@@ -9,6 +9,12 @@
 //    private Session session;
 //
 //
+
+
+
+// pis 12 10KB
+// 7 1 1
+
 //
 ////    public static void GetTid(String tid){
 ////        tid = tid;

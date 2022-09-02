@@ -6,6 +6,7 @@ import com.example.kafka_test.dao.TrainFaultDao;
 import com.example.kafka_test.dto.LineInfo;
 import com.example.kafka_test.dto.trainInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
@@ -29,10 +30,20 @@ public class TrainCardService {
     static String user = "root";
     static String psd = "123456";
     String database = "train_card";
-    static String ip = "121.4.90.236";
+
+    private static String ip = "121.4.90.236";
+
     static String url = "jdbc:mysql://" + ip + ":3306/train_card?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true" + "&user=" + user + "&password=" + psd;
 
     static Connection conn;
+
+    static ResultSet rs1;
+
+    static LineInfo lineInfo;
+
+    static ArrayList<LineInfo> res = new ArrayList<>();
+
+    static ResultSet rs2;
 
     static {
         try {
@@ -62,12 +73,15 @@ public class TrainCardService {
     //    1. 线路部分线路应该是主键(这里数据库还没有加)，所以只会查询到唯一的一个信息
     public static LineInfo getLineInfoById(String lineNum) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException {
         String sql1 = "select * from  line_content where lineNum= " + lineNum;
-        ResultSet rs1 = stat.executeQuery(sql1);
-        rs1.next();
-        if (rs1.isLast()) {
-
+        if (rs1 == null) {
+            ResultSet rs1 = stat.executeQuery(sql1);
+            rs1.next();
+            if (rs1.isLast()) {
+            }
+            lineInfo = getRes(rs1);
+            rs1.close();
         }
-        LineInfo lineInfo = getRes(rs1);
+        return lineInfo;
 
 //        System.out.println(rs1.getString("city"));
 //        System.out.println(rs1.getString("project"));
@@ -83,40 +97,24 @@ public class TrainCardService {
 //        System.out.println(rs1.getInt("transfer_points_num"));
 //        System.out.println(rs1.getInt("transfer_line_num"));
 //        System.out.println(rs1.getInt("train_num"));
-        rs1.close();
-        return lineInfo;
+
     }
 
     //    2. 得到所有线路信息
     public static List<LineInfo> getLineInfos() throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException {
         String sql1 = "select * from  line_content";
 
-        ArrayList<LineInfo> res = new ArrayList<>();
-
-        ResultSet rs1 = stat.executeQuery(sql1);
-        while (rs1.next()) {
-            res.add(getRes(rs1));
-        }
-        rs1.close();
-        return res;
-    }
-
-
-    //    3. 得到指定线路的列车信息
-    public static List<LineInfo> getTrainInfos(String lineNum) throws SQLException, ClassNotFoundException, IllegalAccessException, InstantiationException {
-        String sql1 = "select * from  line_content";
-
-        ArrayList<LineInfo> res = new ArrayList<>();
-
-        ResultSet rs1 = stat.executeQuery(sql1);
-        while (rs1.next()) {
-            res.add(getRes(rs1));
-
-            rs1.close();
+//        ArrayList<LineInfo> res = new ArrayList<>();
+        if (rs2 == null) {
+            rs2 = stat.executeQuery(sql1);
+            while (rs2.next()) {
+                res.add(getRes(rs2));
+            }
+            rs2.close();
         }
         return res;
     }
-
+    
 
     // 处理车辆卡片的字符串，返回map
     public Map<String, String> processTrainCardStr(String str) {
@@ -257,7 +255,7 @@ public class TrainCardService {
             current_station = card_map.get("current_station");
             next_station = card_map.get("next_station");
             speed = Integer.parseInt(card_map.get("trainspeed"));
-            total_train_length=Integer.parseInt(card_map.get("totalmileage"));
+            total_train_length = Integer.parseInt(card_map.get("totalmileage"));
         }
         return new trainInfo(Integer.parseInt(trainNum), Integer.parseInt(lineNum), network, sign_strength, run_model, control_model, current_station, next_station, fault_level, is_online, is_operation, total_train_length);
     }

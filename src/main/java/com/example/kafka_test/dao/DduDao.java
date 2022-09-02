@@ -27,15 +27,15 @@ public class DduDao {
 
     String ddu_topic_id = "group.ddu_" + count;
 
-    // ddu页面
-//    @KafkaListener(id = "", topics = topic_ddu, groupId = "group.ddu_2" )
-//    public void listenerDdu(ConsumerRecord<?, ?> record) {
-//        if (resDdu.containsKey("" + record.key())) {
-//            resDdu.replace("" + record.key(), "" + record.value());
-//        } else {
-//            resDdu.put("" + record.key(), "" + record.value());
-//        }
-//    }
+//     ddu页面
+    @KafkaListener(id = "", topics = topic_ddu, groupId = "new_12" )
+    public void listenerDdu(ConsumerRecord<?, ?> record) {
+        if (resDdu.containsKey("" + record.key())) {
+            resDdu.replace("" + record.key(), "" + record.value());
+        } else {
+            resDdu.put("" + record.key(), "" + record.value());
+        }
+    }
 
     public HashMap<String, String> getResDdu() {
         return resDdu;
