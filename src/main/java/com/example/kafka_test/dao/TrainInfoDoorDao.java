@@ -1,5 +1,6 @@
 package com.example.kafka_test.dao;
 
+import com.example.kafka_test.utils.ListenerTrainInfoDoorThread;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -11,28 +12,29 @@ import java.util.HashMap;
 @Component
 public class TrainInfoDoorDao {
 
-    @Autowired
-    private KafkaTemplate kafkaTemplate;
+//    @Autowired
+//    private KafkaTemplate kafkaTemplate;
 
-    //车门
-    private static final HashMap<String, String> trainInfoDoor = new HashMap<>();
+    static ListenerTrainInfoDoorThread listenerTrainInfoDoorThread = new ListenerTrainInfoDoorThread();
 
-    private static final String train_info_door = "traininfo_door";
 
-    // train_info_door页面
-    @KafkaListener(id = "", topics = train_info_door, groupId = "new_12")
-    public void listenerTrainInfoDoor(ConsumerRecord<?, ?> record) {
-        if (trainInfoDoor.containsKey("" + record.key())) {
-            trainInfoDoor.replace("" + record.key(), "" + record.value());
-        } else {
-            trainInfoDoor.put("" + record.key(), "" + record.value());
-        }
+    static {
+        listenerTrainInfoDoorThread.start();
     }
-
-
 
     public HashMap<String, String> getTrainInfoDoor() {
-        return trainInfoDoor;
+        return listenerTrainInfoDoorThread.getTrainInfoDoor();
     }
+
+//    // train_info_door页面
+//    @KafkaListener(id = "", topics = train_info_door, groupId = "new_12")
+//    public void listenerTrainInfoDoor(ConsumerRecord<?, ?> record) {
+//        if (trainInfoDoor.containsKey("" + record.key())) {
+//            trainInfoDoor.replace("" + record.key(), "" + record.value());
+//        } else {
+//            trainInfoDoor.put("" + record.key(), "" + record.value());
+//        }
+//    }
+
 
 }

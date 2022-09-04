@@ -1,5 +1,6 @@
 package com.example.kafka_test.dao;
 
+import com.example.kafka_test.utils.ListenerTrainInfoPis;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -11,30 +12,30 @@ import java.util.HashMap;
 
 @Component
 public class TrainInfoPisDao {
-    @Autowired
-    private KafkaTemplate kafkaTemplate;
+//    @Autowired
+//    private KafkaTemplate kafkaTemplate;
 
+    static ListenerTrainInfoPis listenerTrainInfoPis = new ListenerTrainInfoPis();
 
-    private static final String train_info_PIS = "traininfo_pis";
-
-    //PIS
-    private static final HashMap<String, String> trainInfoPis = new HashMap<>();
+    static {
+        listenerTrainInfoPis.start();
+    }
 
     public HashMap<String, String> getTrainInfoPis() {
-        return trainInfoPis;
+        return listenerTrainInfoPis.getTrainInfoPis();
     }
 
-    // train_info_PIS页面
-    @KafkaListener(id = "", topics = train_info_PIS, groupId = "new_12")
-    public void listenerTrainInfoPis(ConsumerRecord<?, ?> record) throws IOException {
-        if (trainInfoPis.containsKey("" + record.key())) {
-//            System.out.println(record.key());
-            trainInfoPis.replace("" + record.key(), "" + record.value());
-        } else {
-//            System.out.println(record.key());
-            trainInfoPis.put("" + record.key(), "" + record.value());
-        }
-    }
+//    // train_info_PIS页面
+//    @KafkaListener(id = "", topics = train_info_PIS, groupId = "new_12")
+//    public void listenerTrainInfoPis(ConsumerRecord<?, ?> record) throws IOException {
+//        if (trainInfoPis.containsKey("" + record.key())) {
+////            System.out.println(record.key());
+//            trainInfoPis.replace("" + record.key(), "" + record.value());
+//        } else {
+////            System.out.println(record.key());
+//            trainInfoPis.put("" + record.key(), "" + record.value());
+//        }
+//    }
 
 
 }
