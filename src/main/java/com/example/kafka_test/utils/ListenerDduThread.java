@@ -36,12 +36,15 @@ public class ListenerDduThread extends Thread {
             for (ConsumerRecord<String, String> record : records_ddu) {
                 //ddu部分的key应该也是列车号+时间的方式，这里后续需要更改
                 if (resDdu.containsKey("" + record.key())) {
-                    resDdu.replace("" + record.key(), "" + record.value());
+                    resDdu.replace("" + record.key().substring(0,4), "" + record.value());
                 } else {
-                    resDdu.put("" + record.key(), "" + record.value());
+                    resDdu.put("" + record.key().substring(0,4), "" + record.value());
                 }
             }
 //            System.out.println(resDdu);
         }
+
+
+
     }
 }

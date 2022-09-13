@@ -63,7 +63,6 @@ public class TrainCardService {
         }
     }
 
-
     //得到线路信息的结果
     private static LineInfo getRes(ResultSet rs1) throws SQLException {
         LineInfo lineInfo = new LineInfo(rs1.getString("city"), rs1.getString("project"), rs1.getInt("lineNum"), rs1.getDate("insert_time"), rs1.getDate("collect_time"), rs1.getString("base"), rs1.getDate("opening_time"), rs1.getString("power"), rs1.getInt("station_num"), rs1.getInt("line_config_num"), rs1.getInt("total_line_length"), rs1.getInt("transfer_points_num"), rs1.getInt("transfer_line_num"), rs1.getInt("train_num"));

@@ -76,7 +76,7 @@ public class ListenerTrainCardThread extends Thread {
                     resTrainCard.put(record.key().toString().substring(0, 4), recordStringProcess.processRecordAndString(record.key().toString(), record.value().toString()));
                 }
             }
-//            System.out.println(resTrainCard);
+            System.out.println(resTrainCard);
         }
     }
 }

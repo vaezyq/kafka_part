@@ -22,7 +22,7 @@ public class TrainInfoDoorService {
 
     public Map<String, String> getTrainDoor(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
         String trainKey = "7002";
-        Map<String, String> doorMap = processKafkaRecordUtils.processTrainRecord(trainInfoDoorDao.getTrainInfoDoor().get(trainKey));
+        Map<String, String> doorMap = trainInfoDoorDao.getTrainInfoDoor().get(trainKey);
 
         for (Map.Entry<String, String> entry : doorMap.entrySet()) {
             if (entry.getKey().indexOf(" ") == 0) {

@@ -17,10 +17,11 @@ public class SendDduThread extends Thread {
 
     static DduDao dduDao = applicationContext.getBean(DduDao.class);//获取Spring注解管理的类对象
 
-    static {
-        System.out.println(dduDao);
-        System.out.println(dduDao.getResDdu());
-    }
+//    static {
+//        System.out.println(dduDao);
+//        System.out.println("-----------");
+//        System.out.println(dduDao.getResDdu());
+//    }
 
     ;//调用类的方法
 
@@ -30,7 +31,7 @@ public class SendDduThread extends Thread {
     }
 
     public void setDduDao(DduDao dduDao) {
-        this.dduDao = dduDao;
+        SendDduThread.dduDao = dduDao;
     }
 
     private String lineNum;
@@ -60,21 +61,28 @@ public class SendDduThread extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            String lineNum = "1";
-            String trainNum = "1";
+        String lineNum = "1";
+        String trainNum = "1";
+        DduDao dduDao = applicationContext.getBean(DduDao.class);//获取Spring注解管理的类对象
 //            System.out.println();
 //            System.out.println(dduDao);
-//            try {
-//                String lineNum = "1";
-//                String trainNum = "1";
-//                System.out.println();
-//                System.out.println(dduDao);
-////                session.getBasicRemote().sendText(dduDao.getResDdu().get("7002").toString());
-//            }
-//            catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
+        while (true) {
+            try {
+                if ( dduDao.getResDdu().containsKey("7002")){
+                    session.getBasicRemote().sendText(dduDao.getResDdu().get("7002").toString());
+                }else {
+                    session.getBasicRemote().sendText("");
+                }
+            }
+            catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

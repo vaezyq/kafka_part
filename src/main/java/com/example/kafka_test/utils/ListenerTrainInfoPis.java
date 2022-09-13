@@ -7,6 +7,7 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ListenerTrainInfoPis extends Thread {
 
@@ -14,9 +15,9 @@ public class ListenerTrainInfoPis extends Thread {
     private static final String train_info_PIS = "traininfo_pis";
 
     //PIS
-    private static final HashMap<String, String> trainInfoPis = new HashMap<>();
+    private static final HashMap<String, Map<String,String>> trainInfoPis = new HashMap<>();
 
-    public HashMap<String, String> getTrainInfoPis() {
+    public HashMap<String, Map<String,String>> getTrainInfoPis() {
         return trainInfoPis;
     }
 
@@ -34,15 +35,16 @@ public class ListenerTrainInfoPis extends Thread {
         kafkaConsumer_hvac.subscribe(Arrays.asList(train_info_PIS));
         while (true) {
             ConsumerRecords<String, String> records_pis = kafkaConsumer_hvac.poll(500);
+
+
             for (ConsumerRecord<String, String> record : records_pis) {
-                if (trainInfoPis.containsKey("" + record.key())) {
-//            System.out.println(record.key());
-                    trainInfoPis.replace("" + record.key(), "" + record.value());
+                if (trainInfoPis.containsKey(record.key().toString().substring(0, 4))) {
+                    trainInfoPis.replace(record.key().toString().substring(0, 4),recordStringProcess.processRecordAndString(record.key().toString(), record.value().toString()));
                 } else {
-//            System.out.println(record.key());
-                    trainInfoPis.put("" + record.key(), "" + record.value());
+                    trainInfoPis.put(record.key().toString().substring(0, 4), recordStringProcess.processRecordAndString(record.key().toString(), record.value().toString()));
                 }
             }
+
 //            System.out.println(trainInfoPis);
         }
 

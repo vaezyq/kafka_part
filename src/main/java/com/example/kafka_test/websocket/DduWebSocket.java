@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 @ServerEndpoint(value = "/ddu")
 @Component
-public class MyWebSocket {
+public class DduWebSocket {
 
     @Autowired
     DduDao dduDao;
@@ -21,7 +21,7 @@ public class MyWebSocket {
     private static int onlineCount = 0;
 
     // concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
-    private static CopyOnWriteArraySet<MyWebSocket> webSocketSet = new CopyOnWriteArraySet<MyWebSocket>();
+    private static CopyOnWriteArraySet<DduWebSocket> webSocketSet = new CopyOnWriteArraySet<DduWebSocket>();
 
     // 与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
@@ -56,6 +56,8 @@ public class MyWebSocket {
      */
     @OnClose
     public void onClose() {
+
+        sendDduThread.stop();
         webSocketSet.remove(this); // 从set中删除
         subOnlineCount(); // 在线数减1
         System.out.println("有一连接关闭！当前在线人数为 : " + getOnlineCount());
@@ -71,7 +73,7 @@ public class MyWebSocket {
         System.out.println("来自客户端的消息:" + message);
 
         // 群发消息
-        for (MyWebSocket item : webSocketSet) {
+        for (DduWebSocket item : webSocketSet) {
             try {
                 item.sendMessage(message);
             } catch (IOException e) {
@@ -98,7 +100,7 @@ public class MyWebSocket {
      * 群发自定义消息
      */
     public static void sendInfo(String message) throws IOException {
-        for (MyWebSocket item : webSocketSet) {
+        for (DduWebSocket item : webSocketSet) {
             try {
                 item.sendMessage(message);
             } catch (IOException e) {
@@ -112,10 +114,10 @@ public class MyWebSocket {
     }
 
     public static synchronized void addOnlineCount() {
-        MyWebSocket.onlineCount++;
+        DduWebSocket.onlineCount++;
     }
 
     public static synchronized void subOnlineCount() {
-        MyWebSocket.onlineCount--;
+        DduWebSocket.onlineCount--;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class TrainInfoDoorDao {
@@ -22,7 +23,7 @@ public class TrainInfoDoorDao {
         listenerTrainInfoDoorThread.start();
     }
 
-    public HashMap<String, String> getTrainInfoDoor() {
+    public HashMap<String, Map<String,String>> getTrainInfoDoor() {
         return listenerTrainInfoDoorThread.getTrainInfoDoor();
     }
 

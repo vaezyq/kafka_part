@@ -3,6 +3,7 @@ package com.example.kafka_test.controller;
 import com.example.kafka_test.dto.MyResponseBody;
 import com.example.kafka_test.dto.trainInfo;
 import com.example.kafka_test.service.TrainCardService;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,9 @@ public class TrainCardController {
     @GetMapping(value = "/line")
     @ResponseBody
     @CrossOrigin(origins = "*")
+    @ApiOperation(value = "根据线路号查询某条线路的信息")
+    @ApiImplicitParam(name = "lineNum", value = "线路号")
+    @ApiResponses({@ApiResponse(code = 200, message = "OK", response = MyResponseBody.class)})
     public Object getLineInfoById(@RequestParam("lineNum") String lineNum) {
 //        查询线路信息
         try {
@@ -51,6 +55,8 @@ public class TrainCardController {
     @GetMapping(value = "/line/getAll")
     @ResponseBody
     @CrossOrigin(origins = "*")
+    @ApiOperation(value = "查询数据库里的所有线路")
+    @ApiResponses({@ApiResponse(code = 200, message = "OK", response = MyResponseBody.class)})
     public Object getLineInfos() {
         try {
             return new MyResponseBody("200", "success", trainCardService.getLineInfos());
@@ -66,6 +72,9 @@ public class TrainCardController {
     @GetMapping(value = "/trainInfos")
     @ResponseBody
     @CrossOrigin(origins = "*")
+    @ApiOperation(value = "查询当前线路下的所有车辆信息")
+    @ApiImplicitParam(name = "lineNum", value = "线路号")
+    @ApiResponses({@ApiResponse(code = 200, message = "OK", response = MyResponseBody.class)})
     public Object getTianInfos(@RequestParam("lineNum") String lineNum) {
         try {
             return new MyResponseBody("200", "sucess", trainCardService.getAllTianInfoByLineNum(lineNum));
@@ -81,6 +90,12 @@ public class TrainCardController {
     @GetMapping(value = "/trainInfo")
     @ResponseBody
     @CrossOrigin(origins = "*")
+    @ApiOperation(value = "查询指定线路指定列车的信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "lineNum", value = "线路号"),
+            @ApiImplicitParam(name = "trainNum", value = "列车号"),
+    })
+    @ApiResponses({@ApiResponse(code = 200, message = "OK", response = MyResponseBody.class)})
     public Object getTianInfoByTrainNum(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
         try {
             return new MyResponseBody("200", "sucess", trainCardService.getTianInfoByTrainNum(lineNum, trainNum));
@@ -96,6 +111,10 @@ public class TrainCardController {
     @GetMapping(value = "/trainInfo/operation")
     @ResponseBody
     @CrossOrigin(origins = "*")
+
+    @ApiOperation(value = "查询所有处于投运状态的列车")
+    @ApiImplicitParam(name = "trainNum", value = "列车号")
+    @ApiResponses({@ApiResponse(code = 200, message = "OK", response = MyResponseBody.class)})
     public Object getTianInfoOperation(@RequestParam("lineNum") String lineNum) {
         try {
             Map<Integer, trainInfo> operationLineNumTrainInfo = new HashMap<>();
@@ -121,6 +140,10 @@ public class TrainCardController {
     @GetMapping(value = "/trainInfo/online")
     @ResponseBody
     @CrossOrigin(origins = "*")
+
+    @ApiOperation(value = "查询所有处于在线状态的列车")
+    @ApiImplicitParam(name = "trainNum", value = "列车号")
+    @ApiResponses({@ApiResponse(code = 200, message = "OK", response = MyResponseBody.class)})
     public Object getTianInfoOnline(@RequestParam("lineNum") String lineNum) {
         try {
             Map<Integer, trainInfo> onlineLineNumTrainInfo = new HashMap<>();
@@ -143,6 +166,10 @@ public class TrainCardController {
     @GetMapping(value = "/trainInfo/outline")
     @ResponseBody
     @CrossOrigin(origins = "*")
+
+    @ApiOperation(value = "查询所有处于投运离线状态的列车")
+    @ApiImplicitParam(name = "trainNum", value = "列车号")
+    @ApiResponses({@ApiResponse(code = 200, message = "OK", response = MyResponseBody.class)})
     public Object getTianInfoOutline(@RequestParam("lineNum") String lineNum) {
         try {
             Map<Integer, trainInfo> offlineLineNumTrainInfo = new HashMap<>();
@@ -165,6 +192,10 @@ public class TrainCardController {
     @GetMapping(value = "/trainInfo/status02")
     @ResponseBody
     @CrossOrigin(origins = "*")
+
+    @ApiOperation(value = "查询所有处于鼓掌状态的列车")
+    @ApiImplicitParam(name = "trainNum", value = "列车号")
+    @ApiResponses({@ApiResponse(code = 200, message = "OK", response = MyResponseBody.class)})
     public Object getTianInfoStatus02(@RequestParam("lineNum") String lineNum) {
         try {
             Map<Integer, trainInfo> offlineLineNumTrainInfo = new HashMap<>();
@@ -186,6 +217,10 @@ public class TrainCardController {
     @GetMapping(value = "/trainInfo/status03")
     @ResponseBody
     @CrossOrigin(origins = "*")
+
+    @ApiOperation(value = "查询所有处于预警状态的列车")
+    @ApiImplicitParam(name = "trainNum", value = "列车号")
+    @ApiResponses({@ApiResponse(code = 200, message = "OK", response = MyResponseBody.class)})
     public Object getTianInfoStatus03(@RequestParam("lineNum") String lineNum) {
 //        try {
 //            Map<Integer, trainInfo> offlineLineNumTrainInfo = new HashMap<>();

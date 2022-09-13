@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class TrainInfoPisDao {
@@ -21,9 +22,11 @@ public class TrainInfoPisDao {
         listenerTrainInfoPis.start();
     }
 
-    public HashMap<String, String> getTrainInfoPis() {
+    public HashMap<String, Map<String,String>> getTrainInfoPis() {
         return listenerTrainInfoPis.getTrainInfoPis();
     }
+
+
 
 //    // train_info_PIS页面
 //    @KafkaListener(id = "", topics = train_info_PIS, groupId = "new_12")

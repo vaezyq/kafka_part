@@ -11,14 +11,16 @@ import java.util.Map;
 public class ListenerTrainInfoDoorThread extends Thread {
 
     //车门
-    private static final HashMap<String, String> trainInfoDoor = new HashMap<>();
+    private static final HashMap<String, Map<String,String>> trainInfoDoor = new HashMap<>();
+
+    RecordStringProcess recordStringProcess=new RecordStringProcess();
 
     private static final String train_info_door = "traininfo_door";
 
     KafkaProperties kafkaProperties = new KafkaProperties();
 
 
-    public HashMap<String, String> getTrainInfoDoor() {
+    public HashMap<String, Map<String,String>> getTrainInfoDoor() {
         return trainInfoDoor;
     }
 
@@ -32,11 +34,13 @@ public class ListenerTrainInfoDoorThread extends Thread {
         while (true) {
             //空调部分的数据处理
             ConsumerRecords<String, String> records_door = kafkaConsumer_door.poll(500);
+
+
             for (ConsumerRecord<String, String> record : records_door) {
-                if (trainInfoDoor.containsKey("" + record.key())) {
-                    trainInfoDoor.replace("" + record.key(), "" + record.value());
+                if (trainInfoDoor.containsKey(record.key().toString().substring(0, 4))) {
+                    trainInfoDoor.replace(record.key().toString().substring(0, 4),recordStringProcess.processRecordAndString(record.key().toString(), record.value().toString()));
                 } else {
-                    trainInfoDoor.put("" + record.key(), "" + record.value());
+                    trainInfoDoor.put(record.key().toString().substring(0, 4), recordStringProcess.processRecordAndString(record.key().toString(), record.value().toString()));
                 }
             }
 //            System.out.println(trainInfoDoor);
