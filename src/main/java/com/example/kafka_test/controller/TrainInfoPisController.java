@@ -22,7 +22,7 @@ public class TrainInfoPisController {
     @CrossOrigin(origins = "*")
     // 只会返回空调的温度部分，这一部分是个列表
     public Object getTrainPis(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
-        return new MyResponseBody("200", "success", trainInfoPisService.getTrainPis(lineNum, trainNum));
-//        return trainInfoPisService.getTrainPis(lineNum, trainNum);
+//        return new MyResponseBody("200", "success", trainInfoPisService.getTrainPis(lineNum, trainNum));
+        return trainInfoPisService.getTrainPis(lineNum, trainNum);
     }
 }

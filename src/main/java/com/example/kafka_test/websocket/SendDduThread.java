@@ -1,6 +1,7 @@
 package com.example.kafka_test.websocket;
 
 import com.example.kafka_test.dao.DduDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import javax.websocket.Session;
@@ -11,11 +12,16 @@ public class SendDduThread extends Thread {
     // websocket的会话
     private Session session;
 
+
+
 //    DduDao dduDao = null;
 
     static ApplicationContext applicationContext = SpringUtil.getApplicationContext();
 
     static DduDao dduDao = applicationContext.getBean(DduDao.class);//获取Spring注解管理的类对象
+
+
+
 
     static {
         System.out.println(dduDao);
@@ -61,22 +67,17 @@ public class SendDduThread extends Thread {
     @Override
     public void run() {
         while (true) {
-            String lineNum = "1";
-            String trainNum = "1";
-//            System.out.println();
+            dduDao = applicationContext.getBean(DduDao.class);//获取Spring注解管理的类对象
 //            System.out.println(dduDao);
-//            try {
-//                String lineNum = "1";
-//                String trainNum = "1";
-//                System.out.println();
+            try {
 //                System.out.println(dduDao);
-////                session.getBasicRemote().sendText(dduDao.getResDdu().get("7002").toString());
-//            }
-//            catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
+                session.getBasicRemote().sendText(dduDao.getResDdu().toString());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
-
-
 }
+
+//        y=f(x)  600
+// 1 [2,5]        [1.5,5.5]                    2   [1,6]

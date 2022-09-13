@@ -21,7 +21,7 @@ public class TrainBaseInfoController {
     // 只会返回空调的温度部分，这一部分是个列表
     public Object getTrainBaseInfo(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
 
-       return new MyResponseBody("200","success",trainInfoBaseService.getTrainBaseInfo(lineNum, trainNum));
-//        return trainInfoBaseService.getTrainBaseInfo(lineNum, trainNum);
+//       return new MyResponseBody("200","success",trainInfoBaseService.getTrainBaseInfo(lineNum, trainNum));
+        return trainInfoBaseService.getTrainBaseInfo(lineNum, trainNum);
     }
 }

@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @ServerEndpoint(value = "/ddu")
+
+
 @Component
 public class MyWebSocket {
 
@@ -17,7 +19,8 @@ public class MyWebSocket {
     DduDao dduDao;
 
 
-    // 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
+
+    // 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的
     private static int onlineCount = 0;
 
     // concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
@@ -69,7 +72,6 @@ public class MyWebSocket {
     @OnMessage
     public void onMessage(String message, Session session) {
         System.out.println("来自客户端的消息:" + message);
-
         // 群发消息
         for (MyWebSocket item : webSocketSet) {
             try {

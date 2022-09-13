@@ -57,8 +57,6 @@ public class ListenerTrainInfoHvacThread extends Thread {
     // 重写thread中的run函数，同时所有topic使用一个消费者组
     @Override
     public void run() {
-
-
         //空调部分的消费者
         KafkaConsumer<String, String> kafkaConsumer_hvac = new KafkaConsumer<>(kafkaProperties.getProperties());
         kafkaConsumer_hvac.subscribe(Arrays.asList(train_info_hvac));
@@ -77,9 +75,9 @@ public class ListenerTrainInfoHvacThread extends Thread {
 
                 trainInfoHvacList.set(trainInfoHvacListIdx, res);
                 trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 50;
+                System.out.println(record.key());
             }
 
-//            System.out.println(trainInfoHvac);
         }
     }
 
@@ -104,8 +102,11 @@ public class ListenerTrainInfoHvacThread extends Thread {
         DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf1.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         System.out.println(diff);
+        System.out.println(trainKey);
+
         if (trainCardHvacList.get(0).containsKey(trainKey)) {    //如果包含这辆列车
             Map<String, String> trainKeyCardMap = trainCardHvacList.get(0).get(trainKey);
+//            System.out.println(trainKeyCardMa);
             for (Map.Entry<String, String> entry : trainKeyCardMap.entrySet()) {
 //                System.out.println(entry.getKey().toString());
                 for (int i = 0; i < temList.length; ++i) {

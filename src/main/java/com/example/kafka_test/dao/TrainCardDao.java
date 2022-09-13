@@ -28,6 +28,8 @@ public class TrainCardDao {
 
 
 
+
+
     public HashMap<String, Map<String, String>> getResTrainCard() {
         return listenerTrainCardThread.getResTrainCard();
     }

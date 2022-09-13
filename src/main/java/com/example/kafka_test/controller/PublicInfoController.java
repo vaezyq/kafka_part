@@ -20,7 +20,7 @@ public class PublicInfoController {
     @CrossOrigin(origins = "*")
     // 只会返回空调的温度部分，这一部分是个列表
     public Object getTrainPublicInfo(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
-        return new MyResponseBody("200", "success", publicInfoService.getPublicInfo(lineNum, trainNum));
-//        return publicInfoService.getPublicInfo(lineNum, trainNum);
+//        return new MyResponseBody("200", "success", publicInfoService.getPublicInfo(lineNum, trainNum));
+        return publicInfoService.getPublicInfo(lineNum, trainNum);
     }
 }

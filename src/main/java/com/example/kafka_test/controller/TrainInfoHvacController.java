@@ -28,9 +28,9 @@ public class TrainInfoHvacController {
     @CrossOrigin(origins = "*")  //跨域问题 https://blog.csdn.net/huo065000/article/details/123623353
     public Object getTrainHvac(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) throws ParseException {
 
-        return new MyResponseBody("200", "success", trainInfoHvacService.getTrainHvac(lineNum, trainNum));
+//        return new MyResponseBody("200", "success", trainInfoHvacService.getTrainHvac(lineNum, trainNum));
 
-//        return trainInfoHvacService.getTrainHvac(lineNum, trainNum);
+        return trainInfoHvacService.getTrainHvac(lineNum, trainNum);
     }
 
     @GetMapping(value = "/trainHvacTmp")
@@ -38,8 +38,8 @@ public class TrainInfoHvacController {
     @CrossOrigin(origins = "*")
     // 只会返回空调的温度部分，这一部分是个列表
     public Object getTrainHvacTemp(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) throws ParseException {
-        return new MyResponseBody("200","success",trainInfoHvacDao.getTemList(trainInfoHvacDao.getTrainInfoHvacList(), "7002"));
-//        return trainInfoHvacDao.getTemList(trainInfoHvacDao.getTrainInfoHvacList(), "7002");
+//        return new MyResponseBody("200","success",trainInfoHvacDao.getTemList(trainInfoHvacDao.getTrainInfoHvacList(), "7002"));
+        return trainInfoHvacDao.getTemList(trainInfoHvacDao.getTrainInfoHvacList(), "7002");
     }
 
 }

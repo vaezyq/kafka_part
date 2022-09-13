@@ -30,19 +30,22 @@ public class TrainCardController {
     TrainCardService trainCardService;
 
 
-    //1 查询某条线路信息   finished
     @GetMapping(value = "/line")
     @ResponseBody
     @CrossOrigin(origins = "*")
     public Object getLineInfoById(@RequestParam("lineNum") String lineNum) {
+
+        lineNum="7";
+
 //        查询线路信息
         try {
 
-            return new MyResponseBody("200", "success", trainCardService.getLineInfoById(lineNum));
-//            return trainCardService.getLineInfoById(lineNum);
+//            return new MyResponseBody("200", "success", trainCardService.getLineInfoById(lineNum));
+            return trainCardService.getLineInfoById(lineNum);
         } catch (Exception e) {
             e.printStackTrace();
-            return new MyResponseBody("400", "fail", "");
+//            return new MyResponseBody("400", "fail", "");
+            return "";
         }
     }
 
@@ -53,11 +56,12 @@ public class TrainCardController {
     @CrossOrigin(origins = "*")
     public Object getLineInfos() {
         try {
-            return new MyResponseBody("200", "success", trainCardService.getLineInfos());
-//            return trainCardService.getLineInfos();
+//            return new MyResponseBody("200", "success", trainCardService.getLineInfos());
+            return trainCardService.getLineInfos();
         } catch (Exception e) {
             e.printStackTrace();
-            return new MyResponseBody("400", "fail", "");
+            return "";
+//            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -67,12 +71,16 @@ public class TrainCardController {
     @ResponseBody
     @CrossOrigin(origins = "*")
     public Object getTianInfos(@RequestParam("lineNum") String lineNum) {
+
+        lineNum="7";
+
         try {
-            return new MyResponseBody("200", "sucess", trainCardService.getAllTianInfoByLineNum(lineNum));
-//            return trainCardService.getAllTianInfoByLineNum(lineNum);
+//            return new MyResponseBody("200", "sucess", trainCardService.getAllTianInfoByLineNum(lineNum));
+            return trainCardService.getAllTianInfoByLineNum(lineNum);
         } catch (Exception e) {
             e.printStackTrace();
-            return new MyResponseBody("400", "fail", "");
+            return "";
+//            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -82,12 +90,16 @@ public class TrainCardController {
     @ResponseBody
     @CrossOrigin(origins = "*")
     public Object getTianInfoByTrainNum(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) {
+        lineNum="7";
+        trainNum="2";
+
         try {
-            return new MyResponseBody("200", "sucess", trainCardService.getTianInfoByTrainNum(lineNum, trainNum));
-//            return trainCardService.getTianInfoByTrainNum(lineNum, trainNum);
+//            return new MyResponseBody("200", "sucess", trainCardService.getTianInfoByTrainNum(lineNum, trainNum));
+            return trainCardService.getTianInfoByTrainNum(lineNum, trainNum);
         } catch (Exception e) {
             e.printStackTrace();
-            return new MyResponseBody("400", "fail", "");
+            return "";
+//            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -97,6 +109,8 @@ public class TrainCardController {
     @ResponseBody
     @CrossOrigin(origins = "*")
     public Object getTianInfoOperation(@RequestParam("lineNum") String lineNum) {
+        lineNum="7";
+
         try {
             Map<Integer, trainInfo> operationLineNumTrainInfo = new HashMap<>();
             Map<Integer, trainInfo> allLineNumTrainInfo = trainCardService.getAllTianInfoByLineNum(lineNum);
@@ -108,11 +122,12 @@ public class TrainCardController {
                     operationLineNumTrainInfo.put(entry.getKey(), entry.getValue());
                 }
             }
-            return new MyResponseBody("200", "success", operationLineNumTrainInfo);
-//            return operationLineNumTrainInfo;
+//            return new MyResponseBody("200", "success", operationLineNumTrainInfo);
+            return operationLineNumTrainInfo;
         } catch (Exception e) {
             e.printStackTrace();
-            return new MyResponseBody("400", "fail", "");
+            return "";
+//            return new MyResponseBody("400", "fail", "");
         }
 
     }
@@ -122,6 +137,9 @@ public class TrainCardController {
     @ResponseBody
     @CrossOrigin(origins = "*")
     public Object getTianInfoOnline(@RequestParam("lineNum") String lineNum) {
+
+        lineNum="7";
+
         try {
             Map<Integer, trainInfo> onlineLineNumTrainInfo = new HashMap<>();
             Map<Integer, trainInfo> allLineNumTrainInfo = trainCardService.getAllTianInfoByLineNum(lineNum);
@@ -130,11 +148,12 @@ public class TrainCardController {
                     onlineLineNumTrainInfo.put(entry.getKey(), entry.getValue());
                 }
             }
-            return new MyResponseBody("200", "success", onlineLineNumTrainInfo);
-//            return onlineLineNumTrainInfo;
+//            return new MyResponseBody("200", "success", onlineLineNumTrainInfo);
+            return onlineLineNumTrainInfo;
         } catch (Exception e) {
             e.printStackTrace();
-            return new MyResponseBody("400", "fail", "");
+            return "";
+//            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -144,6 +163,8 @@ public class TrainCardController {
     @ResponseBody
     @CrossOrigin(origins = "*")
     public Object getTianInfoOutline(@RequestParam("lineNum") String lineNum) {
+
+        lineNum="7";
         try {
             Map<Integer, trainInfo> offlineLineNumTrainInfo = new HashMap<>();
             Map<Integer, trainInfo> allLineNumTrainInfo = trainCardService.getAllTianInfoByLineNum(lineNum);
@@ -152,11 +173,12 @@ public class TrainCardController {
                     offlineLineNumTrainInfo.put(entry.getKey(), entry.getValue());
                 }
             }
-            return new MyResponseBody("200", "success", offlineLineNumTrainInfo);
-//            return offlineLineNumTrainInfo;
+//            return new MyResponseBody("200", "success", offlineLineNumTrainInfo);
+            return offlineLineNumTrainInfo;
         } catch (Exception e) {
             e.printStackTrace();
-            return new MyResponseBody("400", "fail", "");
+            return "";
+//            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -166,6 +188,9 @@ public class TrainCardController {
     @ResponseBody
     @CrossOrigin(origins = "*")
     public Object getTianInfoStatus02(@RequestParam("lineNum") String lineNum) {
+
+        lineNum="7";
+
         try {
             Map<Integer, trainInfo> offlineLineNumTrainInfo = new HashMap<>();
             Map<Integer, trainInfo> allLineNumTrainInfo = trainCardService.getAllTianInfoByLineNum(lineNum);
@@ -174,11 +199,12 @@ public class TrainCardController {
                     offlineLineNumTrainInfo.put(entry.getKey(), entry.getValue());
                 }
             }
-            return new MyResponseBody("200", "success", "");
-//            return offlineLineNumTrainInfo;
+//            return new MyResponseBody("200", "success", "");
+            return offlineLineNumTrainInfo;
         } catch (Exception e) {
             e.printStackTrace();
-            return new MyResponseBody("400", "fail", "");
+            return "";
+//            return new MyResponseBody("400", "fail", "");
         }
     }
 
@@ -200,7 +226,8 @@ public class TrainCardController {
 //            e.printStackTrace();
 //            return "";
 //        }
-        return new MyResponseBody("400", "fail", ""); //目前还没有健康预警数据
+        return "";
+//        return new MyResponseBody("400", "fail", ""); //目前还没有健康预警数据
 //        return "";
     }
 

@@ -81,6 +81,8 @@ public class TrainCardService {
             lineInfo = getRes(rs1);
             rs1.close();
         }
+
+
         return lineInfo;
 
 //        System.out.println(rs1.getString("city"));
