@@ -106,4 +106,122 @@ public class TrainInfoHvacService {
         return trainKey;
     }
 
+
+    ArrayList<ArrayList<HashMap<String, String>>> airCondEditionInfo = new ArrayList<>();
+
+
+    //  处理空调返回数据接口的model
+    public ArrayList<ArrayList<HashMap<String, String>>> processModel(Map<String, String> specificTrainKeyMap) {
+
+
+        Map<String, String> trainInfoTemp = removeKeySpace(specificTrainKeyMap);
+        //目前车厢的数目默认最大是6，然后每个车厢的空调的数目默认最大也是6
+        int carriageNum = 6;
+        int airNum = 6;
+        ArrayList<ArrayList<HashMap<String, String>>> airModel = new ArrayList<>();
+
+        //查询的字段模式 tc1hvac1mode
+        for (int i = 1; i <= carriageNum; ++i) {
+            ArrayList<HashMap<String, String>> carriageTemp = new ArrayList<>();
+            for (int j = 1; j <= airNum; ++j) {
+                String airCondKey = "tc" + i + "hvac" + j + "mode";
+                if (trainInfoTemp.containsKey(airCondKey)) {
+                    HashMap<String, String> airState = new HashMap<>();
+                    airState.put("airName", "" + i);
+                    airState.put("airPattern", trainInfoTemp.get(airCondKey));
+                    // 这里代码可能有问题
+                    carriageTemp.add((HashMap<String, String>) airState.clone());
+                    airModel.add(carriageTemp);
+                }
+            }
+
+        }
+        return airModel;
+    }
+
+    //  处理空调返回数据接口的edition
+    public ArrayList<ArrayList<HashMap<String, String>>> processEdition(Map<String, String> specificTrainKeyMap) {
+        Map<String, String> trainInfoTemp = removeKeySpace(specificTrainKeyMap);
+        //目前车厢的数目默认最大是6，然后每个车厢的空调的数目默认最大也是6
+        int carriageNum = 6;
+        int airNum = 6;
+
+        ArrayList<ArrayList<HashMap<String, String>>> airEdition = new ArrayList<>();
+
+        //查询的字段模式 Tc1Hvac1SoftVersion
+        for (int i = 1; i <= carriageNum; ++i) {
+            ArrayList<HashMap<String, String>> carriageTemp = new ArrayList<>();
+            for (int j = 1; j <= airNum; ++j) {
+                String airCondKey = "tc" + i + "hvac" + j + "softversion";
+                if (trainInfoTemp.containsKey(airCondKey)) {
+                    HashMap<String, String> airState = new HashMap<>();
+                    airState.put("airName", "" + i);
+                    airState.put("airPattern", trainInfoTemp.get(airCondKey));
+                    // 这里代码可能有问题
+                    carriageTemp.add((HashMap<String, String>) airState.clone());
+                    airEdition.add(carriageTemp);
+                }
+            }
+
+        }
+        return airEdition;
+    }
+
+    public Map<String, String> removeKeySpace(Map<String, String> trainInfo) {
+        Map<String, String> res = new HashMap<>();
+        for (Map.Entry<String, String> entry : trainInfo.entrySet()) {
+            if (entry.getKey().indexOf(" ") == 0) {  //空格都是开头第一个
+                res.put(entry.getKey().substring(1, entry.getKey().length()), entry.getValue().toString());
+            } else {
+                res.put(entry.getKey(), entry.getValue().toString());
+            }
+        }
+        return res;
+    }
+
+
+    public Map<String, String> getAllTrainTemAndStatus(Map<String, String> trainInfo) {
+        ArrayList<String> trainName = new ArrayList<>();
+        HashMap<String, String> res = new HashMap<>();
+
+
+        for (Map.Entry<String, String> entry : trainInfo.entrySet()) {
+            trainName.add(entry.getKey().substring(0, entry.getKey().indexOf("temperature")));
+        }
+        for (int i = 0; i < trainName.size(); ++i) {
+            String trainKey = "name" + trainName.get(i);
+            res.put(trainKey, trainName.get(i));
+            res.put("temperature" + trainName.get(i), trainInfo.get("temperature" + trainName.get(i)));
+            res.put("state" + trainName.get(i), "正常");
+
+
+
+
+        }
+
+
+        return res;
+
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
