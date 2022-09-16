@@ -181,19 +181,25 @@ public class TrainInfoHvacService {
     }
 
 
-    public AirCondResponse getAirCondResult(String lineNum, String trainNum) {
+    public AirCondResponse getAirCondResult(String lineNum, String trainNum) throws ParseException {
 
         String trainKey = getTrainKey(lineNum, trainNum);
         System.out.println(trainKey);
-
         AirCondResponse airCondResponse = new AirCondResponse();
         Map<String, String> res = new HashMap<>();
         if (trainInfoHvacDao.getTrainInfoHvac() == null) {
             System.out.println("The specified train has no data yet");
             return airCondResponse;
         } else {
-            res = trainInfoHvacDao.getTrainInfoHvac().get(trainKey);
+            res = removeKeySpace(trainInfoHvacDao.getTrainInfoHvac().get(trainKey));       //拿到指定列车号的数据
         }
+
+        airCondResponse.setAirModel(processModel(res));
+        airCondResponse.setAirEdition(processEdition(res));
+        airCondResponse.setTempList(trainInfoHvacDao.getTemList(trainInfoHvacDao.getTrainInfoHvacList(), trainKey));
+
+
+
 
 
         return airCondResponse;
