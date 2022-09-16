@@ -77,7 +77,12 @@ public class ListenerTrainInfoHvacThread extends Thread {
 
                 trainInfoHvacList.set(trainInfoHvacListIdx, res);
                 trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 50;
+//                System.out.println(record.value());
             }
+//            if (trainInfoHvac.containsKey("7002")) {
+//                System.out.println(getAllTrainTemAndStatus(removeKeySpace(trainInfoHvac.get("7002"))));
+//            }
+
 
 //            System.out.println(trainInfoHvac);
         }
@@ -199,5 +204,35 @@ public class ListenerTrainInfoHvacThread extends Thread {
         return temResList;
     }
 
+
+    public Map<String, String> getAllTrainTemAndStatus(Map<String, String> trainInfo) {
+        ArrayList<String> trainName = new ArrayList<>();
+        HashMap<String, String> res = new HashMap<>();
+        for (Map.Entry<String, String> entry : trainInfo.entrySet()) {
+            if (entry.getKey().contains("temperature")) {
+                trainName.add(entry.getKey().substring(0, entry.getKey().indexOf("temperature")));
+            }
+        }
+        for (int i = 0; i < trainName.size(); ++i) {
+            String trainKey = "name" + trainName.get(i);
+            res.put(trainKey, trainName.get(i));
+            res.put("temperature" + trainName.get(i), trainInfo.get(trainName.get(i) + "temperature"));
+            res.put("state" + trainName.get(i), "正常");
+        }
+        return res;
+    }
+
+
+    public Map<String, String> removeKeySpace(Map<String, String> trainInfo) {
+        Map<String, String> res = new HashMap<>();
+        for (Map.Entry<String, String> entry : trainInfo.entrySet()) {
+            if (entry.getKey().indexOf(" ") == 0) {  //空格都是开头第一个
+                res.put(entry.getKey().substring(1, entry.getKey().length()), entry.getValue().toString());
+            } else {
+                res.put(entry.getKey(), entry.getValue().toString());
+            }
+        }
+        return res;
+    }
 
 }

@@ -2,6 +2,7 @@ package com.example.kafka_test.service;
 
 import com.example.kafka_test.dao.ProcessKafkaRecordUtils;
 import com.example.kafka_test.dao.TrainInfoHvacDao;
+import com.example.kafka_test.dto.AirCondResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -180,27 +181,22 @@ public class TrainInfoHvacService {
     }
 
 
-    public Map<String, String> getAllTrainTemAndStatus(Map<String, String> trainInfo) {
-        ArrayList<String> trainName = new ArrayList<>();
-        HashMap<String, String> res = new HashMap<>();
+    public AirCondResponse getAirCondResult(String lineNum, String trainNum) {
 
+        String trainKey = getTrainKey(lineNum, trainNum);
+        System.out.println(trainKey);
 
-        for (Map.Entry<String, String> entry : trainInfo.entrySet()) {
-            trainName.add(entry.getKey().substring(0, entry.getKey().indexOf("temperature")));
-        }
-        for (int i = 0; i < trainName.size(); ++i) {
-            String trainKey = "name" + trainName.get(i);
-            res.put(trainKey, trainName.get(i));
-            res.put("temperature" + trainName.get(i), trainInfo.get("temperature" + trainName.get(i)));
-            res.put("state" + trainName.get(i), "正常");
-
-
-
-
+        AirCondResponse airCondResponse = new AirCondResponse();
+        Map<String, String> res = new HashMap<>();
+        if (trainInfoHvacDao.getTrainInfoHvac() == null) {
+            System.out.println("The specified train has no data yet");
+            return airCondResponse;
+        } else {
+            res = trainInfoHvacDao.getTrainInfoHvac().get(trainKey);
         }
 
 
-        return res;
+        return airCondResponse;
 
     }
 

@@ -46,7 +46,7 @@ public class ListenerTrainFaultThread extends Thread {
                     faultTrainKey.put(record.key().toString().substring(0, 4), "fault");
                 }
 
-                System.out.println(record.value());
+//                System.out.println(record.value());
             }
 //            System.out.println(faultTrainKey);
         }
