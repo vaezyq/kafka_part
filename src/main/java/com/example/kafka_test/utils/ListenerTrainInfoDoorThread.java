@@ -27,7 +27,6 @@ public class ListenerTrainInfoDoorThread extends Thread {
 
     @Override
     public void run() {
-
         //空调部分的消费者
         KafkaConsumer<String, String> kafkaConsumer_door = new KafkaConsumer<>(kafkaProperties.getProperties());
         kafkaConsumer_door.subscribe(Arrays.asList(train_info_door));

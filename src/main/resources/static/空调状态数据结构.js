@@ -216,10 +216,13 @@ valueList:[33, 60, 25, 18, 12, 9]，
       nameTC1: 'TC1',      //TC1车厢名称
       temperatureTC1: '25',  //TC1车厢温度
 	  statusTCl:'正常',       //正常、故障、预警
+
+
       nameTC2: 'TC2',
       temperatureTC2: '26',
 	  statusTC2:'正常',       //正常、故障、预警
-      carriageList: [
+
+        carriageList: [
         {
           name: 'MP1',
           temperature: '23',

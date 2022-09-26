@@ -65,16 +65,18 @@ public class ListenerTrainCardThread extends Thread {
         while (true) {
             //车辆卡片部分的数据处理
             ConsumerRecords<String, String> records_train_card = kafkaConsumer_trainCard.poll(500);
+//            System.out.println(records_train_card.toString());
             for (ConsumerRecord<String, String> record : records_train_card) {
                 //7005列车现在数据存在问题,所以直接舍弃掉，这个后续更改
-                if (record.key().toString().substring(0, 4).equals("7005")) {
-                    return;
-                }
+//                if (record.key().toString().substring(0, 4).equals("7005")) {
+//                    return;
+//                }
                 if (resTrainCard.containsKey(record.key().toString().substring(0, 4))) {
                     resTrainCard.replace(record.key().toString().substring(0, 4), recordStringProcess.processRecordAndString(record.key().toString(), record.value().toString()));
                 } else {
                     resTrainCard.put(record.key().toString().substring(0, 4), recordStringProcess.processRecordAndString(record.key().toString(), record.value().toString()));
                 }
+//                System.out.println(record.value());
             }
 //            System.out.println(resTrainCard);
         }

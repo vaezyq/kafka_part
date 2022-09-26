@@ -31,4 +31,7 @@ public class AirCondResponse {
     //温度等列表信息
     private Map<String, List<String>> tempList;
 
+
+
+
 }

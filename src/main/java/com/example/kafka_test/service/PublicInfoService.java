@@ -4,6 +4,7 @@ import com.example.kafka_test.dao.ProcessKafkaRecordUtils;
 import com.example.kafka_test.dao.TrainCardDao;
 import com.example.kafka_test.dao.TrainFaultDao;
 import com.example.kafka_test.dao.TrainInfoHvacDao;
+import com.example.kafka_test.dto.MyResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 @Service
 public class PublicInfoService {
 
-    @Autowired
+
     TrainCardDao trainCardDao;
 
     @Autowired

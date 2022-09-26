@@ -72,16 +72,21 @@ public class ListenerTrainInfoHvacThread extends Thread {
                 } else {
                     trainInfoHvac.put(record.key().toString().substring(0, 4), processRecordAndString(record.key().toString(), record.value().toString()));
                 }
-//                    System.out.println(record.key());
+//                System.out.println(record.key());
                 HashMap<String, Map<String, String>> res = new HashMap<>(trainInfoHvac);
 
                 trainInfoHvacList.set(trainInfoHvacListIdx, res);
                 trainInfoHvacListIdx = (trainInfoHvacListIdx + 1) % 50;
 //                System.out.println(record.value());
             }
-//            if (trainInfoHvac.containsKey("7002")) {
-//                System.out.println(getAllTrainTemAndStatus(removeKeySpace(trainInfoHvac.get("7002"))));
-//            }
+            if (trainInfoHvac.containsKey("7002")) {
+//                System.out.println(processEdition(removeKeySpace(trainInfoHvac.get("7002"))));
+//                System.out.println(trainInfoHvac.get("7002"));
+//                System.out.println(processModel(removeKeySpace(trainInfoHvac.get("7002"))));
+//                System.out.println(getTrainCarriageInfo(removeKeySpace(trainInfoHvac.get("7002"))));
+//                System.out.println(getAllTrainTemAndStatus());
+//                System.out.println(getOneDimAirCondInfo(removeKeySpace(trainInfoHvac.get("7002"))));
+            }
 
 
 //            System.out.println(trainInfoHvac);
@@ -104,11 +109,11 @@ public class ListenerTrainInfoHvacThread extends Thread {
     // 得到空调部分，需要存储历史信息的部分字段的列表结果
     public Map<String, List<String>> getTemList(List<HashMap<String, Map<String, String>>> trainCardHvacList, String trainKey) throws ParseException { //25个数据，一个数据间隔5分钟
         String temList[] = {"returndampertemp", "senddampertemp", "idampertemp", "cooltemp", "inhaletemp", "exhausttemp", "outevaporationtemp", "evaporationtemp", "targettemp"};
-        Map<String, List<String>> temResList = new HashMap<>();
+        Map<String, List<String>> temResList = new LinkedHashMap<>();
         Date nowDate = new Date();
         DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf1.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-        System.out.println(diff);
+//        System.out.println(diff);
         if (trainCardHvacList.get(0).containsKey(trainKey)) {    //如果包含这辆列车
             Map<String, String> trainKeyCardMap = trainCardHvacList.get(0).get(trainKey);
             for (Map.Entry<String, String> entry : trainKeyCardMap.entrySet()) {
@@ -234,5 +239,151 @@ public class ListenerTrainInfoHvacThread extends Thread {
         }
         return res;
     }
+
+
+    public Map<String, String> getTrainCarriageInfo(Map<String, String> trainInfoHvac) {
+        Map<String, String> res = new HashMap<>();
+        ArrayList<String> frontAndRearCarriageName = new ArrayList<>();
+        frontAndRearCarriageName.add("tc1");
+        frontAndRearCarriageName.add("tc2");
+        ArrayList<String> middlePartCarriageName = new ArrayList<>();
+        middlePartCarriageName.add("m1");
+        middlePartCarriageName.add("m2");
+        middlePartCarriageName.add("mp1");
+        middlePartCarriageName.add("mp2");
+        //添加车头和车尾的信息
+        for (int i = 0; i < frontAndRearCarriageName.size(); ++i) {
+            res.put("name" + frontAndRearCarriageName.get(i), frontAndRearCarriageName.get(i));
+            res.put("temperature" + frontAndRearCarriageName.get(i), trainInfoHvac.get(frontAndRearCarriageName.get(i) + "temperature"));
+            res.put("status" + frontAndRearCarriageName.get(i), "正常");
+        }
+        Map<String, String> res_temp = new HashMap<>();
+        //添加车的中间部分信息
+        for (int i = 0; i < middlePartCarriageName.size(); ++i) {
+            res_temp.put("name" +middlePartCarriageName.get(i), middlePartCarriageName.get(i));
+            res_temp.put("temperature" + middlePartCarriageName.get(i), trainInfoHvac.get(middlePartCarriageName.get(i) + "temperature"));
+            res_temp.put("statusType" + middlePartCarriageName.get(i), "正常");
+        }
+        res.put(" carriageList", res_temp.toString());
+        return res;
+    }
+
+
+    public Map<String, String> getOneDimAirCondInfo(Map<String, String> trainInfoHvac) {
+
+        List<String> carriageName = new ArrayList() {{
+            add("tc1");
+            add("tc2");
+            add("m1");
+            add("m2");
+            add("mp1");
+            add("mp2");
+        }};
+        Map<String, String> res = new HashMap<>();
+        String key="";
+
+        for (int i = 0; i < carriageName.size(); ++i) {
+            for (int j = 1; j <= 2; ++j) {
+                key=carriageName.get(i)+"hvac"+j+ "returndamperstate";
+                res.put( key,trainInfoHvac.get(key));
+                key=carriageName.get(i)+"hvac"+j+ "idamperstate";
+                res.put( key,trainInfoHvac.get(key));
+                // tc1Hvac2Mode:'',                 //空调模式
+                key=carriageName.get(i)+"hvac"+j+ "mode";
+                res.put( key,trainInfoHvac.get(key));
+                // tc1Hvac2IExtTemp:'',          //室外温度
+                key=carriageName.get(i)+"hvac"+j+ "iexttemp";
+                res.put( key,trainInfoHvac.get(key));
+                // tc1Hvac2ITargetTemp:'',       //目标温度
+                key=carriageName.get(i)+"hvac"+j+ "itargettemp";
+                res.put( key,trainInfoHvac.get(key));
+                //
+                // tc1Hvac2Compressor1State:'', //压缩机1状态
+                key=carriageName.get(i)+"hvac"+j+ "compressor1state";
+                res.put( key,trainInfoHvac.get(key));
+                // tc1Hvac2Compressor2State:'',  //压缩机2状态
+                key=carriageName.get(i)+"hvac"+j+ "compressor2state";
+                res.put( key,trainInfoHvac.get(key));
+                // tc1Hvac2Ventilation1State:'',  //通风机1状态
+                key=carriageName.get(i)+"hvac"+j+ "ventilation1state";
+                res.put( key,trainInfoHvac.get(key));
+                // tc1Hvac2Ventilation2State:'',  //通风机2状态
+                key=carriageName.get(i)+"hvac"+j+ "ventilation2state";
+                res.put( key,trainInfoHvac.get(key));
+                // tc1Hvac2Heater1State:'',       //电加热器1状态
+                key=carriageName.get(i)+"hvac"+j+ "heater1state";
+                res.put( key,trainInfoHvac.get(key));
+                // tc1Hvac2Heater2State:'',       //电加热器2状态
+                key=carriageName.get(i)+"hvac"+j+ "heater2state";
+                res.put( key,trainInfoHvac.get(key));
+            }
+        }
+        return res;
+    }
+
+
+    private List<String> carriageName = new ArrayList() {{
+        add("tc1");
+        add("tc2");
+        add("m1");
+        add("m2");
+        add("mp1");
+        add("mp2");
+    }};
+    public ArrayList<ArrayList<HashMap<String, String>>> processModel(Map<String, String> specificTrainKeyMap) {
+        Map<String, String> trainInfoTemp = removeKeySpace(specificTrainKeyMap);
+        //目前车厢的数目默认最大是6，然后每个车厢的空调的数目默认最大也是6
+        int carriageNum = 6;
+        int airNum = 2;
+        ArrayList<ArrayList<HashMap<String, String>>> airModel = new ArrayList<>();
+
+        //查询的字段模式 tc1hvac1mode
+
+        for (int i = 0; i < carriageName.size(); ++i) {
+            ArrayList<HashMap<String, String>> carriageTemp = new ArrayList<>();
+            for (int j = 1; j <= airNum; ++j) {
+                String airCondKey = carriageName.get(i) + "hvac" + j + "mode";
+                if (trainInfoTemp.containsKey(airCondKey)) {
+                    HashMap<String, String> airState = new HashMap<>();
+                    airState.put("airName", "" + (i + 1));
+                    airState.put("airPattern", trainInfoTemp.get(airCondKey));
+                    // 这里代码可能有问题
+                    carriageTemp.add((HashMap<String, String>) airState.clone());
+                }
+            }
+            airModel.add(carriageTemp);
+//            System.out.println(carriageTemp);
+        }
+        return airModel;
+    }
+
+    public ArrayList<ArrayList<HashMap<String, String>>> processEdition(Map<String, String> specificTrainKeyMap) {
+        Map<String, String> trainInfoTemp = removeKeySpace(specificTrainKeyMap);
+        //目前车厢的数目默认最大是6，然后每个车厢的空调的数目默认最大也是6
+        int carriageNum = 6;
+        int airNum = 6;
+
+        ArrayList<ArrayList<HashMap<String, String>>> airEdition = new ArrayList<>();
+
+        //查询的字段模式 Tc1Hvac1SoftVersion
+        for (int i = 0; i < carriageName.size(); ++i) {
+            ArrayList<HashMap<String, String>> carriageTemp = new ArrayList<>();
+            for (int j = 1; j <= airNum; ++j) {
+                String airCondKey = carriageName.get(i) + "hvac" + j + "softversion";
+                if (trainInfoTemp.containsKey(airCondKey)) {
+                    HashMap<String, String> airState = new HashMap<>();
+                    airState.put("airName", "" + (i + 1));
+                    airState.put("airPattern", trainInfoTemp.get(airCondKey));
+                    // 这里代码可能有问题
+                    carriageTemp.add((HashMap<String, String>) airState.clone());
+
+                }
+            }
+            airEdition.add(carriageTemp);
+        }
+        return airEdition;
+    }
+
+
 
 }
