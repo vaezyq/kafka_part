@@ -1,0 +1,239 @@
+[
+  {
+    "source": "仙新路",
+    "target": "尧化门",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A "
+      }
+    }
+  },
+  {
+    "source": "尧化门",
+    "target": "尧化新村",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A "
+      }
+    }
+  },
+  {
+    "source": "尧化新村",
+    "target": "丁家庄南",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "丁家庄南",
+    "target": "丁家庄",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "丁家庄",
+    "target": "万寿",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "万寿",
+    "target": "晓庄",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "晓庄",
+    "target": "幕府山",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "幕府山",
+    "target": "五塘广场",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "五塘广场",
+    "target": "幕府西路",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "幕府西路",
+    "target": "钟阜路",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "钟阜路",
+    "target": "福建路",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "福建路",
+    "target": "古平岗",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "古平岗",
+    "target": "草场门",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "草场门",
+    "target": "清凉山",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+
+  {
+    "source": "清凉山",
+    "target": "莫愁湖",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+
+  {
+    "source": "莫愁湖",
+    "target": "大士茶亭",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+
+  {
+    "source": "大士茶亭",
+    "target": "南湖",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "南湖",
+    "target": "应天大街",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "应天大街",
+    "target": "梦都大街东",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "梦都大街东",
+    "target": "新城科技园",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "新城科技园",
+    "target": "中胜",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "中胜",
+    "target": "嘉临江东街",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "嘉临江东街",
+    "target": "永初路",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "永初路",
+    "target": "太清路",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "太清路",
+    "target": "螺塘路",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "螺塘路",
+    "target": "西善桥",
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  }
+]

@@ -1,0 +1,265 @@
+[
+  {
+    "source": "仙新路",
+    "target": "尧化门",
+    "distance": 696.425,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A "
+      }
+    }
+  },
+  {
+    "source": "尧化门",
+    "target": "尧化新村",
+    "distance": 1264.06,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A "
+      }
+    }
+  },
+  {
+    "source": "尧化新村",
+    "target": "丁家庄南",
+    "distance": 1627.76,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "丁家庄南",
+    "target": "丁家庄",
+    "distance": 1106.98,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "丁家庄",
+    "target": "万寿村",
+    "distance": 1855.935,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "万寿村",
+    "target": "晓庄",
+    "distance": 1273,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "晓庄",
+    "target": "幕府山",
+    "distance": 1858.1,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "幕府山",
+    "target": "五塘广场",
+    "distance": 1908.79,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "五塘广场",
+    "target": "幕府西路",
+    "distance": 680.534,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "幕府西路",
+    "target": "钟阜路",
+    "distance": 1536.168,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "钟阜路",
+    "target": "福建路",
+    "distance": 1651.1,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "福建路",
+    "target": "古平岗",
+    "distance": 1031.561,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "古平岗",
+    "target": "草场门",
+    "distance": 1032.7,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "草场门",
+    "target": "清凉山",
+    "distance": 1759.397,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+
+  {
+    "source": "清凉山",
+    "target": "莫愁湖站",
+    "distance": 1162.231,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+
+  {
+    "source": "莫愁湖站",
+    "target": "大士茶亭",
+    "distance": 561.439,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+
+  {
+    "source": "大士茶亭",
+    "target": "南湖",
+    "distance": 776.6,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "南湖",
+    "target": "应天大街",
+    "distance": 788,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "应天大街",
+    "target": "梦都大街东",
+    "distance": 1457.5,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "梦都大街东",
+    "target": "新城科技园",
+    "distance": 1126,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "新城科技园",
+    "target": "中胜",
+    "distance": 845.5,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "中胜",
+    "target": "嘉临江东街",
+    "distance": 861.595,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "嘉临江东街",
+    "target": "永初路",
+    "distance": 1618,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "永初路",
+    "target": "太清路",
+    "distance": 1221,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "太清路",
+    "target": "螺塘路",
+    "distance": 459.4,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  },
+  {
+    "source": "螺塘路",
+    "target": "西善桥",
+    "distance": 1924.1,
+    "lineStyle": {
+      "normal": {
+        "color": "#4A772A"
+      }
+    }
+  }
+]

@@ -1,0 +1,623 @@
+[
+   {
+      "name": "仙新路",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         1289,
+         164
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "bottom"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "尧化门",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         1236,
+         164
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "bottom"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "尧化新村",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         1185,
+         164
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "top"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "丁家庄南",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         1130,
+         164
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "bottom"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "丁家庄",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         1083,
+         164
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "top"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "万寿",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         1023,
+         127
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "bottom"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "晓庄",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         940,
+         127
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "top"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "幕府山",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         900,
+         127
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "left"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "五塘广场",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         840,
+         141
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "left"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "幕府西路",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         787,
+         175
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "left"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "钟阜路",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         756,
+         196
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "left"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "福建路",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         717,
+         236
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "left"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "古平岗",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         691,
+         278
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "right"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "草场门",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         691,
+         326
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "left"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "清凉山",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         691,
+         379
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "left"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "莫愁湖",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         691,
+         471
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "left"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "大士茶亭",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         691,
+         508
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "right"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "南湖",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         691,
+         552
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "right"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "应天大街",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         691,
+         593
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "right"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "梦都大街东",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         691,
+         623
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "right"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "新城科技园",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         691,
+         656
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "right"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "中胜",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         691,
+         676
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "right"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "嘉临江东街",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         679,
+         720
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "left"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "永初路",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         646,
+         762
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "left"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "太清路",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         651,
+         808
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "left"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "螺塘路",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         665,
+         848
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "right"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   },
+   {
+      "name": "西善桥",
+      "symbol": "circle",
+      "symbolSize": [
+         10,
+         10
+      ],
+      "value": [
+         679,
+         890
+      ],
+      "fixed": true,
+      "category": 1,
+      "label": {
+         "color": "#FFF",
+         "position": "right"
+      },
+      "itemStyle": {
+         "normal": {
+            "color": "#fff"
+         }
+      }
+   }
+]
