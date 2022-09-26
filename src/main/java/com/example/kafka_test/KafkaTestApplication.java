@@ -1,5 +1,6 @@
 package com.example.kafka_test;
 
+import com.example.kafka_test.controller.TrainLinesController;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,5 @@ public class KafkaTestApplication {
     public static void main(String[] args) {
         SpringApplication.run(KafkaTestApplication.class, args);
     }
-
+    TrainLinesController tc = new TrainLinesController();
 }
