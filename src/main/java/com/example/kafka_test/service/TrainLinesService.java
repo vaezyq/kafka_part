@@ -42,23 +42,24 @@ public class TrainLinesService {
 
     //无参构造方法，初始化trainLocationMap和trainLineIntegerHashMap;
     public TrainLinesService() {
-        this.trainStationList=getTrainListFromJson();
-        this.trainLineList=getTrainLineFromJson();
+        this.trainStationList = getTrainListFromJson();
+        this.trainLineList = getTrainLineFromJson();
     }
 
     /**
      * 从json文件中获取列车名称和坐标构成的list
+     *
      * @return
      */
-    private List<TrainStation> getTrainListFromJson(){
+    private List<TrainStation> getTrainListFromJson() {
         String json = "null";
-        try{
-            json= JsonUtils.readJsonData("src/main/resources/static/TrainStationList.json");
-        }catch (IOException e){
+        try {
+            json = JsonUtils.readJsonData("/springProject/TrainStationList.json");
+        } catch (IOException e) {
             e.printStackTrace();
         }
         //将json数组转化为TrainStation对象集合
-        List<TrainStation> listTrainStation = JSON.parseArray(json,TrainStation.class);
+        List<TrainStation> listTrainStation = JSON.parseArray(json, TrainStation.class);
         return listTrainStation;
     }
 
@@ -67,17 +68,18 @@ public class TrainLinesService {
      * hashmap的键是TrainLine，封装着来自json文件中的 target source 和 distance
      * 当从车辆卡片中获取到target和source时，封装成一个TrainLine对象，distance为空
      * 由于重写了equals对象，就可以从hashmap中获取到两站之间的距离
+     *
      * @return
      */
-    private List<TrainLine> getTrainLineFromJson(){
-        String json ="null";
-        try{
-            json= JsonUtils.readJsonData("src/main/resources/static/TrainLineList.json");
-        }catch (IOException e){
+    private List<TrainLine> getTrainLineFromJson() {
+        String json = "null";
+        try {
+            json = JsonUtils.readJsonData("/springProject/TrainLineList.json");
+        } catch (IOException e) {
             e.printStackTrace();
         }
         //将json数组转化为TrainLine对象集合
-        List<TrainLine> listTrainLine = JSON.parseArray(json,TrainLine.class);
+        List<TrainLine> listTrainLine = JSON.parseArray(json, TrainLine.class);
         return listTrainLine;
     }
 
