@@ -46,7 +46,7 @@ public class TrainLinesService {
 
     public double[] queryPositionById(String id){
         if(!stringStationLocationHashMap.containsKey(id)){
-            System.out.println("找不到这个车站的位置");
+            //System.out.println("找不到这个车站的位置");
             return null;
         }
 
