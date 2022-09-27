@@ -1,12 +1,8 @@
 [
   {
-    "source": "仙新路",
-    "target": "尧化门",
-    "lineStyle": {
-      "normal": {
-        "color": "#4A772A "
-      }
-    }
+    "current_station_id": "27",
+    "next_station_id": "26",
+    "distance": 696.425
   },
   {
     "source": "尧化门",
@@ -193,7 +189,7 @@
   },
   {
     "source": "中胜",
-    "target": "嘉临江东街",
+    "target": "嘉陵江东街",
     "lineStyle": {
       "normal": {
         "color": "#4A772A"
@@ -201,7 +197,7 @@
     }
   },
   {
-    "source": "嘉临江东街",
+    "source": "嘉陵江东街",
     "target": "永初路",
     "lineStyle": {
       "normal": {
