@@ -1,7 +1,9 @@
 package com.example.kafka_test.utils;
 
+import com.example.kafka_test.dto.TrainLocationAndTheta;
 import com.example.kafka_test.dto.trainInfo;
 import com.example.kafka_test.service.TrainLinesService;
+import org.apache.kafka.clients.admin.ConsumerGroupListing;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -21,16 +23,13 @@ public class ListenerTrainCardThread extends Thread {
 
     RecordStringProcess recordStringProcess = new RecordStringProcess();
 
-    /*
-    用于存储上次收到的车辆卡片
-      上次 某车辆的车辆卡片 与 当前该车辆的车辆卡片 的 当前站 比较 判断是否到站
-      若未到站则
-        上次 某车辆的车辆卡片 与 当前该车辆的车辆卡片 的 date 比较，若在同一秒则忽略
-        若不在同一秒则
-          取平均速度与时间相乘，与已经走过的距离累加，计算rate
-     */
+
+    //上次收到的车辆卡片集合
     HashMap<String,Map<String,String>> lastReceiveCards = new HashMap<String,Map<String,String>>();
+    //用于保存当前各个车辆在各段线路上行驶距离的hashmap
     HashMap<String,Double> currentDistance = new HashMap<String,Double>();
+    //用于保存返回websocket内容的结构
+    HashMap<String, TrainLocationAndTheta> webSocketResponseMap = new HashMap<String, TrainLocationAndTheta>();
 
     double thetaWhenInStation = 0.0;
 
@@ -125,7 +124,7 @@ public class ListenerTrainCardThread extends Thread {
             System.out.println("lastReceiveCards为"+lastReceiveCards);
             System.out.println("currentDistance为"+currentDistance);
 
-            //System.out.println(lastReceiveCards);
+
             //todo 根据车辆卡片信息计算位置
            //初次启动时，lastReceiveCard为空,若拿到了第一个resTrainCard
             if(lastReceiveCards.isEmpty() && !resTrainCard.isEmpty() ){
@@ -141,8 +140,7 @@ public class ListenerTrainCardThread extends Thread {
                 System.out.println("赋值后，lastReceivedCards为："+lastReceiveCards);
                 //return lastReceivedCard为空前不推送websocket
             }
-//            System.out.println("lastReceiveCards为：" + lastReceiveCards);
-//            System.out.println("currentDistance为 " + currentDistance);
+
             //如果收到的不是第一张车辆卡片，需要结合上一张车辆卡片进行处理
             else {
                 Iterator<String> iterator = resTrainCard.keySet().iterator();
@@ -163,7 +161,8 @@ public class ListenerTrainCardThread extends Thread {
                         //return 列车到站期间直接返回车站坐标
                         double[] coordinate = trainLinesService.queryPositionById(current_station);
                         double theta = thetaWhenInStation;
-                        System.out.println(trainNum+"列车当前坐标为:"+"["+coordinate[0]+","+coordinate[1]+"],角度为"+theta+"度。 ps：新加入车辆,不准确");
+                        System.out.println(trainNum+"列车当前坐标为:"+"["+coordinate[0]+","+coordinate[1]+"],角度为"+theta+"度。 ");
+                        webSocketResponseMap.put(trainNum,new TrainLocationAndTheta(coordinate,trainNum,theta));
                     }
                     else{
                         System.out.println("该车辆目前正从"+current_station+"号站前往"+next_station+"号站");
@@ -177,6 +176,7 @@ public class ListenerTrainCardThread extends Thread {
                             //return 此时直接置于当前车站，直到收到车辆卡片通知：已到达下一站，才能有准确位置
                             double[] coordinate = trainLinesService.queryPositionById(current_station);
                             double theta = trainLinesService.calculateDirection(current_station,next_station);
+                            webSocketResponseMap.put(trainNum,new TrainLocationAndTheta(coordinate,trainNum,theta));
                             System.out.println(trainNum+"列车当前坐标为:"+"["+coordinate[0]+","+coordinate[1]+"],角度为:"+theta+"度。 ps：新加入车辆,不准确");
                         }
 
@@ -199,6 +199,7 @@ public class ListenerTrainCardThread extends Thread {
                                 thetaWhenInStation = theta;
                                 double[] coordinate = trainLinesService.queryPositionById(current_station);
                                 System.out.println(trainNum+"列车当前坐标为:"+"["+coordinate[0]+","+coordinate[1]+"],角度为:"+theta+"度。  ps：已到站");
+                                webSocketResponseMap.put(trainNum,new TrainLocationAndTheta(coordinate,trainNum,theta));
                             }
                             else { //如果没有到达下一站
                                 //先获取卡片时间
@@ -261,14 +262,18 @@ public class ListenerTrainCardThread extends Thread {
                                     double[] coordinate = trainLinesService.calculateCoordinate(current_station,next_station,rate);
                                     double theta = trainLinesService.calculateDirection(current_station,next_station);
                                     System.out.println(trainNum+"列车当前坐标为:"+"["+coordinate[0]+","+coordinate[1]+"],角度为:"+theta+"度。  ps：正在运行");
+                                    webSocketResponseMap.put(trainNum,new TrainLocationAndTheta(coordinate,trainNum,theta));
                                 }
                             }
                             // lastReceiveCards.replace(trainNum,resTrainCard.get(trainNum));
                         }
                     }
 
+
                 }
             }
+            System.out.println(" ");
+            System.out.println("要返回的webSocket为"+webSocketResponseMap);
             // System.out.println(trainLinesService.queryDistanceById("25","26"));
 
             //System.out.println(resTrainCard);
