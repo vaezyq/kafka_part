@@ -1,0 +1,135 @@
+[
+  {
+    "current_station_id": "27",
+    "next_station_id": "26",
+    "distance": 696.425
+  },
+  {
+    "current_station_id": "26",
+    "next_station_id": "25",
+    "distance": 1264.06
+  },
+  {
+    "current_station_id": "25",
+    "next_station_id": "24",
+    "distance": 1627.76
+  },
+  {
+    "current_station_id": "24",
+    "next_station_id": "23",
+    "distance": 1106.98
+  },
+  {
+    "current_station_id": "23",
+    "next_station_id": "22",
+    "distance": 1855.935
+  },
+  {
+    "current_station_id": "22",
+    "next_station_id": "21",
+    "distance": 1273
+  },
+  {
+    "current_station_id": "21",
+    "next_station_id": "20",
+    "distance": 1858.1
+  },
+  {
+    "current_station_id": "20",
+    "next_station_id": "19",
+    "distance": 1908.49
+  },
+  {
+    "current_station_id": "19",
+    "next_station_id": "18",
+    "distance": 680.534
+  },
+  {
+    "current_station_id": "18",
+    "next_station_id": "17",
+    "distance": 1536.168
+  },
+  {
+    "current_station_id": "17",
+    "next_station_id": "16",
+    "distance": 1651.1
+  },
+  {
+    "current_station_id": "16",
+    "next_station_id": "15",
+    "distance": 1031.561
+  },
+  {
+    "current_station_id": "15",
+    "next_station_id": "14",
+    "distance": 1032.7
+  },
+  {
+    "current_station_id": "14",
+    "next_station_id": "13",
+    "distance": 1759.397
+  },
+
+  {
+    "current_station_id": "13",
+    "next_station_id": "12",
+    "distance": 1162.231
+  },
+
+  {
+    "current_station_id": "12",
+    "next_station_id": "11",
+    "distance": 561.439
+  },
+
+  {
+    "current_station_id": "11",
+    "next_station_id": "10",
+    "distance": 776.6
+  },
+  {
+    "current_station_id": "10",
+    "next_station_id": "9",
+    "distance": 788
+  },
+  {
+    "current_station_id": "9",
+    "next_station_id": "8",
+    "distance": 1457.5
+  },
+  {
+    "current_station_id": "8",
+    "next_station_id": "7",
+    "distance": 1126
+  },
+  {
+    "current_station_id": "7",
+    "next_station_id": "6",
+    "distance": 845.5
+  },
+  {
+    "current_station_id": "6",
+    "next_station_id": "5",
+    "distance": 861.595
+  },
+  {
+    "current_station_id": "5",
+    "next_station_id": "4",
+    "distance": 1618
+  },
+  {
+    "current_station_id": "4",
+    "next_station_id": "3",
+    "distance": 1221
+  },
+  {
+    "current_station_id": "3",
+    "next_station_id": "2",
+    "distance": 459.4
+  },
+  {
+    "current_station_id": "2",
+    "next_station_id": "1",
+    "distance": 1924.1
+  }
+]
