@@ -113,8 +113,12 @@ public class ListenerTrainInfoHvacThread extends Thread {
         Date nowDate = new Date();
         DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf1.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-//        System.out.println(diff);
+
+        System.out.println(diff);
+//        System.out.println(trainCardHvacList);
+//        System.out.println(trainKey);
         if (trainCardHvacList.get(0).containsKey(trainKey)) {    //如果包含这辆列车
+//            System.out.println(trainKey);
             Map<String, String> trainKeyCardMap = trainCardHvacList.get(0).get(trainKey);
             for (Map.Entry<String, String> entry : trainKeyCardMap.entrySet()) {
 //                System.out.println(entry.getKey().toString());
@@ -143,6 +147,9 @@ public class ListenerTrainInfoHvacThread extends Thread {
                             }
                         }
                         for (int j = (trainInfoHvacListIdx - 1) % 2; j < trainInfoHvacListIdx; j += 2) {
+                            if (j < 0) {
+                                continue;
+                            }
                             if (trainCardHvacList.get(j).size() == 0) {
                                 temp.add("0");
                             } else {
@@ -169,6 +176,10 @@ public class ListenerTrainInfoHvacThread extends Thread {
 
             List<String> date = new ArrayList<>();
             for (int j = trainInfoHvacListIdx + 1; j < trainCardHvacList.size(); j += 2) {
+                if (j >= trainCardHvacList.size()) {
+                    continue;
+                }
+
                 if (trainCardHvacList.get(j).size() == 0) {
                     date.add(sdf1.format(new Date()));
                 } else {
@@ -187,6 +198,10 @@ public class ListenerTrainInfoHvacThread extends Thread {
                 }
             }
             for (int j = (trainInfoHvacListIdx - 1) % 2; j < trainInfoHvacListIdx; j += 2) {
+                if (j < 0) {
+                    continue;
+                }
+
                 if (trainCardHvacList.get(j).size() == 0) {
                     date.add(sdf1.format(new Date()));
                 } else {
@@ -260,7 +275,7 @@ public class ListenerTrainInfoHvacThread extends Thread {
         Map<String, String> res_temp = new HashMap<>();
         //添加车的中间部分信息
         for (int i = 0; i < middlePartCarriageName.size(); ++i) {
-            res_temp.put("name" +middlePartCarriageName.get(i), middlePartCarriageName.get(i));
+            res_temp.put("name" + middlePartCarriageName.get(i), middlePartCarriageName.get(i));
             res_temp.put("temperature" + middlePartCarriageName.get(i), trainInfoHvac.get(middlePartCarriageName.get(i) + "temperature"));
             res_temp.put("statusType" + middlePartCarriageName.get(i), "正常");
         }
@@ -280,42 +295,42 @@ public class ListenerTrainInfoHvacThread extends Thread {
             add("mp2");
         }};
         Map<String, String> res = new HashMap<>();
-        String key="";
+        String key = "";
 
         for (int i = 0; i < carriageName.size(); ++i) {
             for (int j = 1; j <= 2; ++j) {
-                key=carriageName.get(i)+"hvac"+j+ "returndamperstate";
-                res.put( key,trainInfoHvac.get(key));
-                key=carriageName.get(i)+"hvac"+j+ "idamperstate";
-                res.put( key,trainInfoHvac.get(key));
+                key = carriageName.get(i) + "hvac" + j + "returndamperstate";
+                res.put(key, trainInfoHvac.get(key));
+                key = carriageName.get(i) + "hvac" + j + "idamperstate";
+                res.put(key, trainInfoHvac.get(key));
                 // tc1Hvac2Mode:'',                 //空调模式
-                key=carriageName.get(i)+"hvac"+j+ "mode";
-                res.put( key,trainInfoHvac.get(key));
+                key = carriageName.get(i) + "hvac" + j + "mode";
+                res.put(key, trainInfoHvac.get(key));
                 // tc1Hvac2IExtTemp:'',          //室外温度
-                key=carriageName.get(i)+"hvac"+j+ "iexttemp";
-                res.put( key,trainInfoHvac.get(key));
+                key = carriageName.get(i) + "hvac" + j + "iexttemp";
+                res.put(key, trainInfoHvac.get(key));
                 // tc1Hvac2ITargetTemp:'',       //目标温度
-                key=carriageName.get(i)+"hvac"+j+ "itargettemp";
-                res.put( key,trainInfoHvac.get(key));
+                key = carriageName.get(i) + "hvac" + j + "itargettemp";
+                res.put(key, trainInfoHvac.get(key));
                 //
                 // tc1Hvac2Compressor1State:'', //压缩机1状态
-                key=carriageName.get(i)+"hvac"+j+ "compressor1state";
-                res.put( key,trainInfoHvac.get(key));
+                key = carriageName.get(i) + "hvac" + j + "compressor1state";
+                res.put(key, trainInfoHvac.get(key));
                 // tc1Hvac2Compressor2State:'',  //压缩机2状态
-                key=carriageName.get(i)+"hvac"+j+ "compressor2state";
-                res.put( key,trainInfoHvac.get(key));
+                key = carriageName.get(i) + "hvac" + j + "compressor2state";
+                res.put(key, trainInfoHvac.get(key));
                 // tc1Hvac2Ventilation1State:'',  //通风机1状态
-                key=carriageName.get(i)+"hvac"+j+ "ventilation1state";
-                res.put( key,trainInfoHvac.get(key));
+                key = carriageName.get(i) + "hvac" + j + "ventilation1state";
+                res.put(key, trainInfoHvac.get(key));
                 // tc1Hvac2Ventilation2State:'',  //通风机2状态
-                key=carriageName.get(i)+"hvac"+j+ "ventilation2state";
-                res.put( key,trainInfoHvac.get(key));
+                key = carriageName.get(i) + "hvac" + j + "ventilation2state";
+                res.put(key, trainInfoHvac.get(key));
                 // tc1Hvac2Heater1State:'',       //电加热器1状态
-                key=carriageName.get(i)+"hvac"+j+ "heater1state";
-                res.put( key,trainInfoHvac.get(key));
+                key = carriageName.get(i) + "hvac" + j + "heater1state";
+                res.put(key, trainInfoHvac.get(key));
                 // tc1Hvac2Heater2State:'',       //电加热器2状态
-                key=carriageName.get(i)+"hvac"+j+ "heater2state";
-                res.put( key,trainInfoHvac.get(key));
+                key = carriageName.get(i) + "hvac" + j + "heater2state";
+                res.put(key, trainInfoHvac.get(key));
             }
         }
         return res;
@@ -330,6 +345,7 @@ public class ListenerTrainInfoHvacThread extends Thread {
         add("mp1");
         add("mp2");
     }};
+
     public ArrayList<ArrayList<HashMap<String, String>>> processModel(Map<String, String> specificTrainKeyMap) {
         Map<String, String> trainInfoTemp = removeKeySpace(specificTrainKeyMap);
         //目前车厢的数目默认最大是6，然后每个车厢的空调的数目默认最大也是6
@@ -383,7 +399,6 @@ public class ListenerTrainInfoHvacThread extends Thread {
         }
         return airEdition;
     }
-
 
 
 }

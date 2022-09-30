@@ -35,7 +35,7 @@ public class TrainInfoHvacController {
 
         Map<String, String> res = new HashMap<>();
 
-        System.out.println(trainInfoHvacService.getAirCondResult(lineNum,trainNum));
+        System.out.println(trainInfoHvacService.getAirCondResult(lineNum, trainNum));
 //        for (Map.Entry<String, String> entry : trainInfoHvacService.getAirCondResult(lineNum,trainNum).entrySet()) {
 //            if (entry.getKey().indexOf(" ") == 0) {  //空格都是开头第一个
 //                res.put(entry.getKey().substring(1, entry.getKey().length()), entry.getValue().toString());
@@ -45,7 +45,7 @@ public class TrainInfoHvacController {
 ////                res.put(entry.getKey(), entry.getValue().toString());
 //            }
 //        }
-        return new MyResponseBody("200", "success", trainInfoHvacService.getAirCondResult(lineNum,trainNum));
+        return new MyResponseBody("200", "success", trainInfoHvacService.getAirCondResult(lineNum, trainNum));
 //        return trainInfoHvacService.getTrainHvac(lineNum, trainNum);
     }
 
@@ -54,7 +54,9 @@ public class TrainInfoHvacController {
     @CrossOrigin(origins = "*")
     // 只会返回空调的温度部分，这一部分是个列表
     public Object getTrainHvacTemp(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) throws ParseException {
-        return new MyResponseBody("200","success",trainInfoHvacDao.getTemList(trainInfoHvacDao.getTrainInfoHvacList(), "7002"));
+
+        String trainKey = trainInfoHvacService.getTrainKey(lineNum, trainNum);
+        return new MyResponseBody("200", "success", trainInfoHvacDao.getTemList(trainInfoHvacDao.getTrainInfoHvacList(), trainKey));
 //        return trainInfoHvacDao.getTemList(trainInfoHvacDao.getTrainInfoHvacList(), "7002");
     }
 

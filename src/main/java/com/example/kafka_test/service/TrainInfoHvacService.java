@@ -1,9 +1,12 @@
 package com.example.kafka_test.service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.example.kafka_test.dao.ProcessKafkaRecordUtils;
 import com.example.kafka_test.dao.TrainCardDao;
 import com.example.kafka_test.dao.TrainInfoHvacDao;
 import com.example.kafka_test.dto.AirCondResponse;
+import com.example.kafka_test.dto.MyResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -136,22 +139,62 @@ public class TrainInfoHvacService {
 
         //查询的字段模式 tc1hvac1mode
 
-        for (int i = 0; i < carriageName.size(); ++i) {
+//        for (int i = 0; i < carriageName.size(); ++i) {
+//            ArrayList<HashMap<String, String>> carriageTemp = new ArrayList<>();
+//            for (int j = 1; j <= airNum; ++j) {
+//                String airCondKey = carriageName.get(i) + "hvac" + j + "mode";
+//                if (trainInfoTemp.containsKey(airCondKey)) {
+//                    HashMap<String, String> airState = new HashMap<>();
+//                    airState.put("airName", "" + (i + 1));
+//                    airState.put("airPattern", trainInfoTemp.get(airCondKey));
+//                    // 这里代码可能有问题
+//                    carriageTemp.add((HashMap<String, String>) airState.clone());
+//
+//                }
+//            }
+//            airModel.add(carriageTemp);
+//        }
+
+
+        for (int j = 1; j <= airNum; ++j) {
             ArrayList<HashMap<String, String>> carriageTemp = new ArrayList<>();
-            for (int j = 1; j <= airNum; ++j) {
+            for (int i = 0; i < carriageName.size(); ++i) {
                 String airCondKey = carriageName.get(i) + "hvac" + j + "mode";
                 if (trainInfoTemp.containsKey(airCondKey)) {
                     HashMap<String, String> airState = new HashMap<>();
-                    airState.put("airName", "" + (i + 1));
-                    airState.put("airPattern", trainInfoTemp.get(airCondKey));
+                    airState.put("airName", "" + (j));
+                    airState.put("airPattern", getAirCondChineseName(trainInfoTemp.get(airCondKey)));
                     // 这里代码可能有问题
                     carriageTemp.add((HashMap<String, String>) airState.clone());
-
                 }
             }
             airModel.add(carriageTemp);
         }
+
+
         return airModel;
+    }
+
+    // if(port0x8A0_IHeating == TRUE){result = "Heating"}  制热
+    //else if(port0x8A0_IStopMod == TRUE)(result = "Stop") 停止
+    //else if(port0x8A0_IEmergVent == TRUE)(result = "EmergencyVentilation") 紧急通风
+    //else if(port0x8A0_IVent == TRUE)(result = "Ventilation") 通风
+    //else if(port0x8A0_ICooling == TRUE)(result = "Cooling") 制冷
+
+
+    public String getAirCondChineseName(String mode) {
+        if (mode.equals("ventilation")) {
+            return "通风";
+        } else if (mode.equals("heating")) {
+            return "制热";
+        } else if (mode.equals("stop")) {
+            return "停止";
+        } else if (mode.equals("cooling")) {
+            return "制冷";
+        } else if (mode.equals("emergencyventilation")) {
+            return "紧急制动";
+        }
+        return "";
     }
 
     //  处理空调返回数据接口的edition
@@ -164,22 +207,39 @@ public class TrainInfoHvacService {
         ArrayList<ArrayList<HashMap<String, String>>> airEdition = new ArrayList<>();
 
         //查询的字段模式 Tc1Hvac1SoftVersion
-        for (int i = 0; i < carriageName.size(); ++i) {
+//        for (int i = 0; i < carriageName.size(); ++i) {
+//            ArrayList<HashMap<String, String>> carriageTemp = new ArrayList<>();
+//            for (int j = 1; j <= airNum; ++j) {
+//                String airCondKey = carriageName.get(i) + "hvac" + j + "softversion";
+//                if (trainInfoTemp.containsKey(airCondKey)) {
+//                    HashMap<String, String> airState = new HashMap<>();
+//                    airState.put("airName", "" + (i + 1));
+//                    airState.put("airPattern", trainInfoTemp.get(airCondKey));
+//                    // 这里代码可能有问题
+//                    carriageTemp.add((HashMap<String, String>) airState.clone());
+//
+//                }
+//            }
+//            airEdition.add(carriageTemp);
+//        }
+
+
+        for (int j = 1; j <= airNum; ++j) {
             ArrayList<HashMap<String, String>> carriageTemp = new ArrayList<>();
-            for (int j = 1; j <= airNum; ++j) {
+            for (int i = 0; i < carriageName.size(); ++i) {
                 String airCondKey = carriageName.get(i) + "hvac" + j + "softversion";
                 if (trainInfoTemp.containsKey(airCondKey)) {
                     HashMap<String, String> airState = new HashMap<>();
-                    airState.put("airName", "" + (i + 1));
+                    airState.put("airName", "" + (j));
                     airState.put("airPattern", trainInfoTemp.get(airCondKey));
                     // 这里代码可能有问题
                     carriageTemp.add((HashMap<String, String>) airState.clone());
-
                 }
             }
             airEdition.add(carriageTemp);
-
         }
+
+
         return airEdition;
     }
 
@@ -196,15 +256,15 @@ public class TrainInfoHvacService {
     }
 
 
-    public Map<String, String> getTrainCarriageInfo(Map<String, String> trainInfoHvac) {
-        Map<String, String> res = new LinkedHashMap<>();
+    public Map<String, Object> getTrainCarriageInfo(Map<String, String> trainInfoHvac) {
+        Map<String, Object> res = new LinkedHashMap<>();
         ArrayList<String> frontAndRearCarriageName = new ArrayList<>();
         frontAndRearCarriageName.add("tc1");
         frontAndRearCarriageName.add("tc2");
         ArrayList<String> middlePartCarriageName = new ArrayList<>();
+        middlePartCarriageName.add("mp1");
         middlePartCarriageName.add("m1");
         middlePartCarriageName.add("m2");
-        middlePartCarriageName.add("mp1");
         middlePartCarriageName.add("mp2");
         //添加车头和车尾的信息
         for (int i = 0; i < frontAndRearCarriageName.size(); ++i) {
@@ -212,7 +272,7 @@ public class TrainInfoHvacService {
             res.put("temperature" + frontAndRearCarriageName.get(i), trainInfoHvac.get(frontAndRearCarriageName.get(i) + "temperature"));
             res.put("status" + frontAndRearCarriageName.get(i), "正常");
         }
-        ArrayList<String> middlePartCarriageTemp = new ArrayList<>();
+        ArrayList<Map<String, String>> middlePartCarriageTemp = new ArrayList<>();
 
         //添加车的中间部分信息
 //        for (int i = 0; i < middlePartCarriageName.size(); ++i) {
@@ -225,9 +285,13 @@ public class TrainInfoHvacService {
             res_temp.put("name", middlePartCarriageName.get(i));
             res_temp.put("temperature", trainInfoHvac.get(middlePartCarriageName.get(i) + "temperature"));
             res_temp.put("statusType", "正常");
-            middlePartCarriageTemp.add(res_temp.toString());
+            middlePartCarriageTemp.add(res_temp);
+
+//            middlePartCarriageTemp.add(JSON.toJSONString(res_temp));
         }
-        res.put("carriageList", middlePartCarriageTemp.toString());
+//        JSONArray jsonObj = (JSONArray) JSONArray.toJSON(middlePartCarriageTemp);
+        res.put("carriageList", middlePartCarriageTemp);
+//        res.put("carriageList", JSONArray.toJSON(middlePartCarriageTemp).toString());
         return res;
     }
 
@@ -261,9 +325,11 @@ public class TrainInfoHvacService {
                 // tc1Hvac2IExtTemp:'',          //室外温度
                 key = carriageName.get(i) + "hvac" + j + "iexttemp";
                 res.put(key, trainInfoHvac.get(key));
-                // tc1Hvac2ITargetTemp:'',       //目标温度
+                // tc1Hvac2ITargetTemp:'',       //目标温度,这个应该是多维的
                 key = carriageName.get(i) + "hvac" + j + "itargettemp";
-                res.put(key, trainInfoHvac.get(key));
+                String finalKey = key + "Alone";
+
+                res.put(finalKey, trainInfoHvac.get(key));
                 //
                 // tc1Hvac2Compressor1State:'', //压缩机1状态
                 key = carriageName.get(i) + "hvac" + j + "compressor1state";
@@ -289,10 +355,10 @@ public class TrainInfoHvacService {
     }
 
 
-    public Map<String, String> getAirCondResult(String lineNum, String trainNum) throws ParseException {
+    public Map<String, Object> getAirCondResult(String lineNum, String trainNum) throws ParseException {
 
 
-        Map<String, String> baseInfo = new LinkedHashMap<>();
+        Map<String, Object> baseInfo = new LinkedHashMap<>();
 
         Map<String, String> trainCardRes = new LinkedHashMap<>();
 
@@ -311,14 +377,16 @@ public class TrainInfoHvacService {
             }
             //拿到指定列车号的数据
         }
-        baseInfo.put("carSpeed", trainCardRes.get("trainspeed"));
+        if (trainCardRes.containsKey("trainspeed")) {
+            baseInfo.put("carSpeed", String.format("%.2f", Float.parseFloat(trainCardRes.get("trainspeed")) / 10));
+        }
         baseInfo.put("airPressure", trainCardRes.get("mainairpressure"));
         baseInfo.put("breakPressure", trainCardRes.get("brakepressure"));
 
 
-        Map<String, String> airResponse = new LinkedHashMap<>();
+        Map<String, Object> airResponse = new LinkedHashMap<>();
 
-        for (Map.Entry<String, String> entry : baseInfo.entrySet()) {
+        for (Map.Entry<String, Object> entry : baseInfo.entrySet()) {
             airResponse.put(entry.getKey(), entry.getValue());
         }
 
@@ -333,6 +401,7 @@ public class TrainInfoHvacService {
                 res = removeKeySpace(trainInfoHvacDao.getTrainInfoHvac().get(trainKey));
             } else {
                 System.out.println("The specified train has no data yet");
+                return airResponse;
             }
             //拿到指定列车号的数据
         }
@@ -342,21 +411,46 @@ public class TrainInfoHvacService {
         airCondResponse.setTrainTemAndStatus(getTrainCarriageInfo(res));
         airCondResponse.setTempList(trainInfoHvacDao.getTemList(trainInfoHvacDao.getTrainInfoHvacList(), trainKey));
 
-        //剩余一维信息\
+        //剩余一维信息
         airCondResponse.setOneDimAirCondInfo(getOneDimAirCondInfo(res));
         // 车厢部分数据，不包含车头和车尾
-        airResponse.put("airPatternList", airCondResponse.getAirModel().toString());
-        airResponse.put("airEditionList", airCondResponse.getAirEdition().toString());
+//        String jsonString2 = JSON.toJSONString(new MyResponseBody("400","no data",res));
 
-        for (Map.Entry<String, String> entry : airCondResponse.getTrainTemAndStatus().entrySet()) {
+        ArrayList<ArrayList<String>> airRes = new ArrayList<>();
+        for (int i = 0; i < airCondResponse.getAirModel().size(); ++i) {
+            ArrayList<String> airResTemp = new ArrayList<>();
+            for (int j = 0; j < airCondResponse.getAirModel().get(i).size(); ++j) {
+                airResTemp.add(JSON.toJSONString(airCondResponse.getAirModel().get(i).get(j)));
+            }
+            airRes.add(airResTemp);
+        }
+
+//        airResponse.put("airPatternList", JSON.toJSONString(airCondResponse.getAirModel()));
+
+
+        airResponse.put("airPatternList", airCondResponse.getAirModel());
+
+        ArrayList<ArrayList<String>> airEditionRes = new ArrayList<>();
+        for (int i = 0; i < airCondResponse.getAirEdition().size(); ++i) {
+            ArrayList<String> airResTemp = new ArrayList<>();
+            for (int j = 0; j < airCondResponse.getAirEdition().get(i).size(); ++j) {
+                airResTemp.add(JSON.toJSONString(airCondResponse.getAirEdition().get(i).get(j)));
+            }
+            airEditionRes.add(airResTemp);
+        }
+//        airResponse.put("airEditionList", JSON.toJSONString(airCondResponse.getAirEdition()));
+        airResponse.put("airEditionList", airCondResponse.getAirEdition());
+
+
+        for (Map.Entry<String, Object> entry : airCondResponse.getTrainTemAndStatus().entrySet()) {
             airResponse.put(entry.getKey(), entry.getValue());
         }
 
         for (Map.Entry<String, List<String>> entry : airCondResponse.getTempList().entrySet()) {
             if (entry.getKey().indexOf(" ") == 0) {  //空格都是开头第一个
-                airResponse.put(entry.getKey().substring(1, entry.getKey().length()), entry.getValue().toString());
+                airResponse.put(entry.getKey().substring(1, entry.getKey().length()), entry.getValue());
             } else {
-                airResponse.put(entry.getKey(), entry.getValue().toString());
+                airResponse.put(entry.getKey(), entry.getValue());
             }
         }
 

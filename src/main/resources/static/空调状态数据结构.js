@@ -262,7 +262,7 @@ tc1Hvac1S1EvaporationTemp:[25, 23, 33, 32, 23, 22, 22, 22, 22, 23, 23, 24,......
  tc1Hvac1IDamperState:'',      //新风阀:两个状态   开：open  关：closed
  tc1Hvac1Mode:'',                 //空调模式
  tc1Hvac1IExtTemp:'',          //室外温度
- tc1Hvac1ITargetTemp:'',       //目标温度
+ tc1Hvac1ITargetTempAlone:'',       //目标温度
 
  tc1Hvac1Compressor1State:'', //压缩机1状态
  tc1Hvac1Compressor2State:'',  //压缩机2状态

@@ -23,15 +23,13 @@ public class AirCondResponse {
     private ArrayList<ArrayList<HashMap<String, String>>> airEdition;
 
     //每个车厢的温度和状态
-    private Map<String, String> trainTemAndStatus;
+    private Map<String, Object> trainTemAndStatus;
 
     //其余全部一维信息
-    private Map<String,String> oneDimAirCondInfo;
+    private Map<String, String> oneDimAirCondInfo;
 
     //温度等列表信息
     private Map<String, List<String>> tempList;
-
-
 
 
 }

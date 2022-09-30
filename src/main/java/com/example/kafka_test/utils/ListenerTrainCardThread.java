@@ -29,7 +29,7 @@ public class ListenerTrainCardThread extends Thread {
     //用于保存当前各个车辆在各段线路上行驶距离的hashmap
     HashMap<String,Double> currentDistance = new HashMap<String,Double>();
     //用于保存返回websocket内容的结构
-    HashMap<String, TrainLocationAndTheta> webSocketResponseMap = new HashMap<String, TrainLocationAndTheta>();
+    static public HashMap<String, TrainLocationAndTheta> webSocketResponseMap = new HashMap<String, TrainLocationAndTheta>();
 
     double thetaWhenInStation = 0.0;
 
@@ -105,6 +105,7 @@ public class ListenerTrainCardThread extends Thread {
                 } else {
                     resTrainCard.put(record.key().toString().substring(0, 4), recordStringProcess.processRecordAndString(record.key().toString(), record.value().toString()));
                 }
+//                System.out.println(record.key());
 //                System.out.println(record.value());
             }
 
@@ -283,7 +284,7 @@ public class ListenerTrainCardThread extends Thread {
                 }
             }
             System.out.println(" ");
-            System.out.println("要返回的webSocket为"+webSocketResponseMap);
+//            System.out.println("要返回的webSocket为"+webSocketResponseMap);
 
 
         }
