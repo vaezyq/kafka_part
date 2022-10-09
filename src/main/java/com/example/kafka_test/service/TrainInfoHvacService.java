@@ -44,7 +44,7 @@ public class TrainInfoHvacService {
     public Map<String, String> getTrainHvac(@RequestParam("lineNum") String lineNum, @RequestParam("trainNum") String trainNum) throws ParseException {
 
         String trainKey = getTrainKey(lineNum, trainNum);
-        System.out.println(trainKey);
+//        System.out.println(trainKey);
 
 //        String trainKey = "7002";
 

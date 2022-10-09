@@ -44,7 +44,7 @@ public class TrainCardDao {
             temp.put("coordsData", entry.getValue().getCoordsData());
             temp.put("subwayNum", entry.getValue().getSubwayNum());
             temp.put("symbolRotateNum", entry.getValue().getSymbolRotateNum());
-            System.out.println(listenerTrainCardThread.getResTrainCard());
+//            System.out.println(listenerTrainCardThread.getResTrainCard());
 
             String speed = listenerTrainCardThread.getResTrainCard().get(entry.getValue().getSubwayNum()).get("trainspeed");
             temp.put("speed", String.format("%.2f", Float.parseFloat(speed) / 10));

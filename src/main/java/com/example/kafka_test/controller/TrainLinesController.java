@@ -37,8 +37,8 @@ public class TrainLinesController {
         String dataListJson ="null";
         String linksListJson ="null";
         try{
-            dataListJson = JsonUtils.readJsonData("/springProject/trainStationToFrontEnd.json");
-            linksListJson= JsonUtils.readJsonData("/springProject/trainLineToFrontEnd.json");
+            dataListJson = JsonUtils.readJsonData("./trainStationToFrontEnd.json");
+            linksListJson= JsonUtils.readJsonData("./trainLineToFrontEnd.json");
         }catch (IOException e){
             e.printStackTrace();
         }

@@ -35,7 +35,7 @@ public class TrainInfoHvacController {
 
         Map<String, String> res = new HashMap<>();
 
-        System.out.println(trainInfoHvacService.getAirCondResult(lineNum, trainNum));
+//        System.out.println(trainInfoHvacService.getAirCondResult(lineNum, trainNum));
 //        for (Map.Entry<String, String> entry : trainInfoHvacService.getAirCondResult(lineNum,trainNum).entrySet()) {
 //            if (entry.getKey().indexOf(" ") == 0) {  //空格都是开头第一个
 //                res.put(entry.getKey().substring(1, entry.getKey().length()), entry.getValue().toString());

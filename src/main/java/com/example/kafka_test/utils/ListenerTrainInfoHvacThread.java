@@ -114,7 +114,7 @@ public class ListenerTrainInfoHvacThread extends Thread {
         DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf1.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 
-        System.out.println(diff);
+//        System.out.println(diff);
 //        System.out.println(trainCardHvacList);
 //        System.out.println(trainKey);
         if (trainCardHvacList.get(0).containsKey(trainKey)) {    //如果包含这辆列车

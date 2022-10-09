@@ -283,7 +283,7 @@ public class ListenerTrainCardThread extends Thread {
 
                 }
             }
-            System.out.println(" ");
+//            System.out.println(" ");
 //            System.out.println("要返回的webSocket为"+webSocketResponseMap);
 
 

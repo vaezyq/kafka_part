@@ -31,8 +31,8 @@ public class TrainLinesService {
 
 //            stationLocationJson = JsonUtils.readJsonData("src/main/resources/static/stationLocation.json");
 //            distanceJson = JsonUtils.readJsonData("src/main/resources/static/distance.json");
-            stationLocationJson = JsonUtils.readJsonData("/springProject/stationLocation.json");
-            distanceJson = JsonUtils.readJsonData("/springProject/distance.json");
+            stationLocationJson = JsonUtils.readJsonData("./stationLocation.json");
+            distanceJson = JsonUtils.readJsonData("./distance.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
