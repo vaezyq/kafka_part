@@ -47,10 +47,14 @@ public class TrainCardDao {
 //            System.out.println(listenerTrainCardThread.getResTrainCard());
 
             String speed = listenerTrainCardThread.getResTrainCard().get(entry.getValue().getSubwayNum()).get("trainspeed");
-            temp.put("speed", String.format("%.2f", Float.parseFloat(speed) / 10));
-            temp.put("nextStation", listenerTrainCardThread.getResTrainCard().get(entry.getValue().getSubwayNum()).get(" next_station"));
-            temp.put("pressure", listenerTrainCardThread.getResTrainCard().get(entry.getValue().getSubwayNum()).get(" mainairpressure"));
+
+
+            temp.put("speed", Double.parseDouble(String.format("%.2f", Float.parseFloat(speed) / 10)));
+//            System.out.println(listenerTrainCardThread.getResTrainCard().get(entry.getValue().getSubwayNum()));
+            temp.put("nextStation", Integer.parseInt(listenerTrainCardThread.getResTrainCard().get(entry.getValue().getSubwayNum()).get("next_station")));
+            temp.put("pressure", Integer.parseInt(listenerTrainCardThread.getResTrainCard().get(entry.getValue().getSubwayNum()).get("mainairpressure")));
             res.add(temp);
+//            System.out.println(temp);
         }
 
         return res;
