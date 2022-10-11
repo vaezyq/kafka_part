@@ -1,11 +1,9 @@
-package com.example.kafka_test.service;
+package com.example.kafka_test.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.example.kafka_test.dao.TrainCardDao;
+import com.example.kafka_test.dao.ProcessLineDataUtils;
 import com.example.kafka_test.dto.Distance;
 import com.example.kafka_test.dto.StationLocation;
-import com.example.kafka_test.utils.JsonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -13,10 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
-public class TrainLinesService {
-
-    @Autowired
-    private TrainCardDao trainCardDao;
+public class TrainLinesUtils {
 
     private HashMap<String, StationLocation> stringStationLocationHashMap = new HashMap<String, StationLocation>();
 
@@ -24,17 +19,21 @@ public class TrainLinesService {
 
 
     //无参构造方法，初始化stringStationLocationHashMap和distanceDoubleHashMap;
-    public TrainLinesService() {
+    public TrainLinesUtils() {
         String stationLocationJson = "null";
         String distanceJson = "null";
+        ProcessLineDataUtils pldu = new ProcessLineDataUtils();
         try {
-
 //            stationLocationJson = JsonUtils.readJsonData("src/main/resources/static/stationLocation.json");
 //            distanceJson = JsonUtils.readJsonData("src/main/resources/static/distance.json");
-            stationLocationJson = JsonUtils.readJsonData("./stationLocation.json");
-            distanceJson = JsonUtils.readJsonData("./distance.json");
+//            stationLocationJson = JsonUtils.readJsonData("./stationLocation.json");
+//            distanceJson = JsonUtils.readJsonData("./distance.json");
+              stationLocationJson = pldu.getTrainLineJson("stationLocation");
+              distanceJson = pldu.getTrainLineJson("distance");
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
         //将json数组转化为TrainStation对象集合
         List<StationLocation> stationLocations = JSON.parseArray(stationLocationJson, StationLocation.class);
@@ -52,6 +51,13 @@ public class TrainLinesService {
             //System.out.println("找不到这个车站的位置");
             return null;
         } else return stringStationLocationHashMap.get(id).getValue();
+    }
+
+    public String queryStationNameById(String id){
+        if (!stringStationLocationHashMap.containsKey(id)) {
+            //System.out.println("找不到这个车站的名称");
+            return null;
+        } else return stringStationLocationHashMap.get(id).getName();
     }
 
     public double queryDistanceById(String id1, String id2) {

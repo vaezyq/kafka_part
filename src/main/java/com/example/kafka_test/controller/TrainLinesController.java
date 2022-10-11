@@ -1,22 +1,16 @@
 package com.example.kafka_test.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
+import com.example.kafka_test.dao.ProcessLineDataUtils;
 import com.example.kafka_test.dto.DataListAndLinksList;
 import com.example.kafka_test.dto.MyResponseBody;
-import com.example.kafka_test.service.TrainLinesService;
-import com.example.kafka_test.utils.JsonUtils;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.io.IOException;
 
 @Controller
 public class TrainLinesController {
@@ -36,10 +30,13 @@ public class TrainLinesController {
     public Object getTrainStation() {
         String dataListJson ="null";
         String linksListJson ="null";
+        ProcessLineDataUtils pldu = new ProcessLineDataUtils();
         try{
-            dataListJson = JsonUtils.readJsonData("./trainStationToFrontEnd.json");
-            linksListJson= JsonUtils.readJsonData("./trainLineToFrontEnd.json");
-        }catch (IOException e){
+//            dataListJson = JsonUtils.readJsonData("./trainStationToFrontEnd.json");
+//            linksListJson= JsonUtils.readJsonData("./trainLineToFrontEnd.json");
+              dataListJson = pldu.getTrainLineJson("trainStationToFrontEnd");
+              linksListJson = pldu.getTrainLineJson("trainLineToFrontEnd");
+        }catch (Exception e){
             e.printStackTrace();
         }
 //        JSONArray array = JSON.parseArray(dataListJson);

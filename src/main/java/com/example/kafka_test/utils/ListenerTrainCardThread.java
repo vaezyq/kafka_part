@@ -1,14 +1,9 @@
 package com.example.kafka_test.utils;
 
 import com.example.kafka_test.dto.TrainLocationAndTheta;
-import com.example.kafka_test.dto.trainInfo;
-import com.example.kafka_test.service.TrainLinesService;
-import org.apache.kafka.clients.admin.ConsumerGroupListing;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.common.utils.Exit;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +12,7 @@ import java.util.*;
 public class ListenerTrainCardThread extends Thread {
 
     //@Autowired
-    TrainLinesService trainLinesService = new TrainLinesService();
+    TrainLinesUtils trainLinesUtils = new TrainLinesUtils();
 
     KafkaProperties kafkaProperties = new KafkaProperties();
 
@@ -165,13 +160,13 @@ public class ListenerTrainCardThread extends Thread {
                     Map<String,String> map = resTrainCard.get(trainNum);
                     String current_station = map.get("current_station");
                     String next_station = map.get("next_station");
-                    if (trainLinesService.queryPositionById(current_station)==null || trainLinesService.queryPositionById(next_station)==null){
+                    if (trainLinesUtils.queryPositionById(current_station)==null || trainLinesUtils.queryPositionById(next_station)==null){
                         //System.out.println("该车辆目前不位于7号线运行区间");
                     }
                     else if(current_station.equals(next_station)){
                         //System.out.println("此时列车位于"+current_station+"站");
                         //return 列车到站期间直接返回车站坐标
-                        double[] coordinate = trainLinesService.queryPositionById(current_station);
+                        double[] coordinate = trainLinesUtils.queryPositionById(current_station);
                         double theta = thetaWhenInStation;
                         //System.out.println(trainNum+"列车当前坐标为:"+"["+coordinate[0]+","+coordinate[1]+"],角度为"+theta+"度。 ");
                         webSocketResponseMap.put(trainNum,new TrainLocationAndTheta(coordinate,trainNum,theta));
@@ -186,8 +181,8 @@ public class ListenerTrainCardThread extends Thread {
                             lastReceiveCards.put(trainNum,map);
                             //System.out.println("添加后lastReceiveCards为"+lastReceiveCards);
                             //return 此时直接置于当前车站，直到收到车辆卡片通知：已到达下一站，才能有准确位置
-                            double[] coordinate = trainLinesService.queryPositionById(current_station);
-                            double theta = trainLinesService.calculateDirection(current_station,next_station);
+                            double[] coordinate = trainLinesUtils.queryPositionById(current_station);
+                            double theta = trainLinesUtils.calculateDirection(current_station,next_station);
                             webSocketResponseMap.put(trainNum,new TrainLocationAndTheta(coordinate,trainNum,theta));
                             //System.out.println(trainNum+"列车当前坐标为:"+"["+coordinate[0]+","+coordinate[1]+"],角度为:"+theta+"度。 ps：新加入车辆,不准确");
                         }
@@ -206,10 +201,10 @@ public class ListenerTrainCardThread extends Thread {
                                 currentDistance.replace(trainNum,0.0);
                                 lastReceiveCards.replace(trainNum,map);
                                 //return websocket发送坐标为current_station的坐标
-                                double theta = trainLinesService.calculateDirection(lastCurrentStation,current_station);
+                                double theta = trainLinesUtils.calculateDirection(lastCurrentStation,current_station);
                                 //到站期间，需要保存之前的方向角度
                                 thetaWhenInStation = theta;
-                                double[] coordinate = trainLinesService.queryPositionById(current_station);
+                                double[] coordinate = trainLinesUtils.queryPositionById(current_station);
                                 //System.out.println(trainNum+"列车当前坐标为:"+"["+coordinate[0]+","+coordinate[1]+"],角度为:"+theta+"度。  ps：已到站");
                                 webSocketResponseMap.put(trainNum,new TrainLocationAndTheta(coordinate,trainNum,theta));
                             }
@@ -232,7 +227,7 @@ public class ListenerTrainCardThread extends Thread {
                                 }
                                 else{
                                     //System.out.println("两次车辆卡片的时间不同");
-                                    double totalDistance = trainLinesService.queryDistanceById(current_station,next_station);
+                                    double totalDistance = trainLinesUtils.queryDistanceById(current_station,next_station);
                                     double stopDistance = totalDistance * 0.95;
                                     if (currentDistance.get(trainNum)<stopDistance){
                                         //System.out.println("此时没有到达预测缓冲点");
@@ -271,8 +266,8 @@ public class ListenerTrainCardThread extends Thread {
                                     //System.out.println("rate取"+rate);
                                     lastReceiveCards.replace(trainNum,resTrainCard.get(trainNum));
                                     //todo websocket根据计算出的rate发送坐标
-                                    double[] coordinate = trainLinesService.calculateCoordinate(current_station,next_station,rate);
-                                    double theta = trainLinesService.calculateDirection(current_station,next_station);
+                                    double[] coordinate = trainLinesUtils.calculateCoordinate(current_station,next_station,rate);
+                                    double theta = trainLinesUtils.calculateDirection(current_station,next_station);
                                     //System.out.println(trainNum+"列车当前坐标为:"+"["+coordinate[0]+","+coordinate[1]+"],角度为:"+theta+"度。  ps：正在运行");
                                     webSocketResponseMap.put(trainNum,new TrainLocationAndTheta(coordinate,trainNum,theta));
                                 }
