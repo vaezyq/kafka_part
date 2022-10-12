@@ -126,7 +126,7 @@ public class ListenerTrainCardThread extends Thread {
             */
 
             //todo 根据车辆卡片信息计算位置
-           //初次启动时，lastReceiveCard为空,若拿到了第一个resTrainCard
+            //初次启动时，lastReceiveCard为空,若拿到了第一个resTrainCard
             if(lastReceiveCards.isEmpty() && !resTrainCard.isEmpty() ){
                 //需要对lastReceiveCard进行赋值
                 /*
@@ -172,7 +172,7 @@ public class ListenerTrainCardThread extends Thread {
                         webSocketResponseMap.put(trainNum,new TrainLocationAndTheta(coordinate,trainNum,theta));
                     }
                     else{
-                       //System.out.println("该车辆目前正从"+current_station+"号站前往"+next_station+"号站");
+                        //System.out.println("该车辆目前正从"+current_station+"号站前往"+next_station+"号站");
                         //如果是新收到的列车,则无法估算准确位置，初始化
                         if(!lastReceiveCards.containsKey(trainNum)){
                             //System.out.println("该车辆在lastReceiveCards里找不到，将其添加进去");

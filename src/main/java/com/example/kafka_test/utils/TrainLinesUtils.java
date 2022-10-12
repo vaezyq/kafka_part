@@ -28,8 +28,8 @@ public class TrainLinesUtils {
 //            distanceJson = JsonUtils.readJsonData("src/main/resources/static/distance.json");
 //            stationLocationJson = JsonUtils.readJsonData("./stationLocation.json");
 //            distanceJson = JsonUtils.readJsonData("./distance.json");
-              stationLocationJson = pldu.getTrainLineJson("stationLocation");
-              distanceJson = pldu.getTrainLineJson("distance");
+            stationLocationJson = pldu.getTrainLineJson("stationLocation");
+            distanceJson = pldu.getTrainLineJson("distance");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {

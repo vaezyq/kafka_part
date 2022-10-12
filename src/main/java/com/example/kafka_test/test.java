@@ -55,7 +55,7 @@ public class test {
         Map<String, String> trainCardHavc = new HashMap<>();
         int comma_idx_fir = 0;
         int equal_idx = 0;
-        int comma_idx_sec = -1; 
+        int comma_idx_sec = -1;
         int count = 0;
         while ((comma_idx_sec = str.indexOf(',', comma_idx_sec + 1)) != -1) {
             equal_idx = str.indexOf('=', equal_idx + 1);

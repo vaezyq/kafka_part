@@ -1,5 +1,6 @@
 package com.example.kafka_test.controller;
 
+import com.example.kafka_test.dao.ProcessLineDataUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -18,7 +19,12 @@ public class testController {
     @ResponseBody
     @CrossOrigin(origins = "*")
     // 用于测试
-    public String index() {
-        return new String("test");
+    public String index() throws Exception {
+
+        ProcessLineDataUtils processLineDataUtils = new ProcessLineDataUtils();
+        processLineDataUtils.getTrainLineJson("123");
+        return "123";
+
+
     }
 }

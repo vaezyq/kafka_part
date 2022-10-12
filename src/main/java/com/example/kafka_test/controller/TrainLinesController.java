@@ -34,8 +34,8 @@ public class TrainLinesController {
         try{
 //            dataListJson = JsonUtils.readJsonData("./trainStationToFrontEnd.json");
 //            linksListJson= JsonUtils.readJsonData("./trainLineToFrontEnd.json");
-              dataListJson = pldu.getTrainLineJson("trainStationToFrontEnd");
-              linksListJson = pldu.getTrainLineJson("trainLineToFrontEnd");
+            dataListJson = pldu.getTrainLineJson("trainStationToFrontEnd");
+            linksListJson = pldu.getTrainLineJson("trainLineToFrontEnd");
         }catch (Exception e){
             e.printStackTrace();
         }
