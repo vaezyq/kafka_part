@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.kafka_test.dao.LineClassifyDao">
+
+    <select id="classifyByParentId" parameterType="com.example.kafka_test.pojo.query.LineClassifyQuery" resultType="com.example.kafka_test.pojo.LineClassify">
+        select *
+        from train_card.line_classify
+        where  parent_id=#{parentId} and del=0 order by 'index'
+    </select>
+
+    <insert id="insertConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into train_card.line_video_config (line_classify_level1_id,line_classify_level2_id,line_classify_level3_id,line_classify_level4_id,video_url,place)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.line_classify_level1_id}, #{item.line_classify_level2_id}, #{item.line_classify_level3_id}, #{item.line_classify_level4_id}, , #{item.video_url}, #{item.place})
+        </foreach>
+    </insert>
+    <delete id="deleteUserById" parameterType="int">
+        delete from train_card.line_classify where id=#{id}
+    </delete>
+
+</mapper>
