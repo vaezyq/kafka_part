@@ -56,6 +56,7 @@ public class ListenerTrainInfoDoorThread extends Thread {
 //                Map<String,String> map = trainInfoDoor.get(trainNum);
 //                String str = JSON.toJSONString(map);
 //            }
+
             String string = JSON.toJSONString(trainInfoDoor);
             System.out.println(string);
         }
